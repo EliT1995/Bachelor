@@ -6,6 +6,7 @@ from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
 from keras.optimizers import Adam
+from ScoreLogger import ScoreLogger
 
 EPISODES = 1000
 
@@ -93,9 +94,10 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
-
 if __name__ == "__main__":
-    env = gym.make('CartPole-v1')
+    env_name = 'CartPole-v1'
+    env = gym.make(env_name)
+    score_logger = ScoreLogger(env_name)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -105,10 +107,16 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    for e in range(EPISODES):
+    run = 0
+    while True:
+        run += 1
         state = env.reset()
         state = np.reshape(state, [1, state_size])
-        for time in range(500):
+
+        step = 0
+
+        while True:
+            step += 1
             # env.render()
             action = agent.act(state)
 
@@ -119,12 +127,12 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
-                print("episode: {}/{}, score: {}, e: {:.2}"
-                      .format(e, EPISODES, time, agent.epsilon))
+                #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
+                score_logger.add_score(step, run)
                 break
 
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
-            if e % 2 == 0:
+            if run % 2 == 0:
                 agent.set_weights()
