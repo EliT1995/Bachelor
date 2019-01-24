@@ -17,9 +17,10 @@ def preprocessing(frame_array):
 
     #turn to gray
     from skimage.color import rgb2gray
+
     grayscale_frame = rgb2gray(frame_array)
 
-    #resize
+    # resize
     from skimage.transform import resize
     resized_frame = np.uint8(resize(grayscale_frame, (84, 84), mode='constant') * 255)
 
@@ -72,7 +73,7 @@ model = atari_model()
 target_model = atari_model()
 
 nEpisodes = 100000
-total_observe_count = 750
+total_observe_count = 2
 epsilon = 1.0
 batch_size = 32
 gamma = 0.99
@@ -104,9 +105,15 @@ def deepQlearn():
     current_state_batch, actions, rewards, next_state_batch, dead = get_sample_random_batch_from_replay_memory()
 
     action_mask = np.ones((batch_size, ACTION_SIZE))
+    #print("action_mask and format si : {}".format(action_mask.shape)) #(32,3)
+    #print("next state batch format {}".format(next_state_batch.shape)) #(32,84,84,4)
     next_Q_values = target_model.predict([next_state_batch, action_mask])
+    #print("next q values and format si : {}".format(next_Q_values.shape)) #(32,3)
+    #print("predict shape is : {}".format([next_state_batch, action_mask]))
 
-    targets = np.zeros((batch_size,))
+    targets = np.zeros((batch_size,)) #(32,)
+    print("targets and format si : {}".format(targets.shape))
+
 
     for i in range(batch_size):
         if dead[i]:
@@ -129,8 +136,11 @@ for episode in range(nEpisodes):
     for _ in range(random.randint(1, 30)):
         current_state, _, _, _ = env.step(1)
 
+    #print(current_state.shape) # (210, 160, 3)
     current_state = preprocessing(current_state)
+    #print(current_state.shape) # (84, 84)
     current_state = np.stack((current_state, current_state, current_state, current_state), axis=2)
+    #print(current_state.shape) # (84, 84, 4)
     current_state = np.reshape([current_state], (1, 84, 84, 4))
 
     while not done:
@@ -160,9 +170,11 @@ for episode in range(nEpisodes):
 
         score += reward
 
+
         if dead:
             dead = False
         else:
             current_state = next_state
 
+    print("episode: {}, score: {}".format(episode, score))
 
