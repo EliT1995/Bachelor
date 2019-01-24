@@ -28,17 +28,15 @@ class DQNAgent:
         actions_input = Input((self.action_size,), name='mask')
 
         # Architecture of the Model
-        first_hidden_layer = Dense(32, activation='relu')(frames_input)
+        first_hidden_layer = Dense(24, activation='relu')(frames_input)
         second_hidden_layer = Dense(32, activation='relu')(first_hidden_layer)
-        third_hidden_layer = Dense(32, activation='relu')(second_hidden_layer)
 
-        output_layer = Dense(self.action_size)(third_hidden_layer)
+        output_layer = Dense(self.action_size)(second_hidden_layer)
 
         filtered_output = Multiply(name='QValue')([output_layer, actions_input])
 
         model = Model(inputs=[frames_input, actions_input], outputs=filtered_output)
-        optimizer = RMSprop(lr=0.00025, rho=0.95, epsilon=0.01)
-        model.compile(optimizer, loss=self.huber_loss)
+        model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
 
         return model
 
@@ -160,4 +158,3 @@ if __name__ == "__main__":
 
             if episode % 2 == 0:
                 agent.set_weights()
-
