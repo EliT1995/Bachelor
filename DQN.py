@@ -73,7 +73,7 @@ model = atari_model()
 target_model = atari_model()
 
 nEpisodes = 100000
-total_observe_count = 2
+total_observe_count = 3
 epsilon = 1.0
 batch_size = 32
 gamma = 0.99
@@ -112,7 +112,7 @@ def deepQlearn():
     #print("predict shape is : {}".format([next_state_batch, action_mask]))
 
     targets = np.zeros((batch_size,)) #(32,)
-    print("targets and format si : {}".format(targets.shape))
+    #print("targets and format si : {}".format(targets.shape))
 
 
     for i in range(batch_size):
@@ -144,7 +144,7 @@ for episode in range(nEpisodes):
     current_state = np.reshape([current_state], (1, 84, 84, 4))
 
     while not done:
-        env.render()
+        #env.render()
         action = epsilon_greedy_policy_action(current_state, episode)
         real_action = action + 1
 
@@ -176,5 +176,5 @@ for episode in range(nEpisodes):
         else:
             current_state = next_state
 
-    print("episode: {}, score: {}".format(episode, score))
+    print("episode: {}, score: {}, epsilon: {}".format(episode, score, epsilon))
 
