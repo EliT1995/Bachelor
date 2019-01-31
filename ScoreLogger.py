@@ -50,7 +50,7 @@ class ScoreLogger:
         print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), mean_score, max(self.scores)))
         print("Score: (self scores : {})".format(self.scores))
 
-        if mean_score >= self.AVERAGE_SCORE_TO_SOLVE:
+        if mean_score >= self.AVERAGE_SCORE_TO_SOLVE and len(self.scores) >= CONSECUTIVE_RUNS_TO_SOLVE:
             solve_score = run-CONSECUTIVE_RUNS_TO_SOLVE
             print("Solved in {} runs {} total runs".format(solve_score, run))
             self._save_csv(self.SOLVED_CSV_PATH, solve_score)
