@@ -11,7 +11,7 @@ SCORES_CSV_PATH = "./scores.csv"
 SCORES_PNG_PATH = "./scores.png"
 SOLVED_CSV_PATH = "./solved.csv"
 SOLVED_PNG_PATH = "./solved.png"
-AVERAGE_SCORE_TO_SOLVE = 195
+AVERAGE_SCORE_TO_SOLVE = 475
 CONSECUTIVE_RUNS_TO_SOLVE = 100
 
 
@@ -37,6 +37,7 @@ class ScoreLogger:
                        show_trend=True,
                        show_legend=True)
         self.scores.append(score)
+
         mean_score = mean(self.scores)
         print("Score: (min: {}, avg: {}, max: {})".format(min(self.scores), mean_score, max(self.scores)))
         if mean_score >= AVERAGE_SCORE_TO_SOLVE and len(self.scores) >= CONSECUTIVE_RUNS_TO_SOLVE:
