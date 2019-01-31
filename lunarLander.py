@@ -54,8 +54,8 @@ class DQNAgent:
     def get_sample_random_batch_from_replay_memory(self):
         mini_batch = random.sample(self.memory, batch_size)
 
-        current_state_batch = np.zeros((batch_size, 4))
-        next_state_batch = np.zeros((batch_size, 4))
+        current_state_batch = np.zeros((batch_size, 8))
+        next_state_batch = np.zeros((batch_size, 8))
 
         actions, rewards, dead = [], [], []
 
@@ -100,9 +100,9 @@ class DQNAgent:
         self.target_model.set_weights(target_weights)
 
 if __name__ == "__main__":
-    env_name = 'CartPole-v0'
+    env_name = 'LunarLander-v2'
     env = gym.make(env_name)
-    threshold = 195
+    threshold = 200
     score_logger = ScoreLogger(env_name, threshold)
 
     state_size = env.observation_space.shape[0]
@@ -141,4 +141,3 @@ if __name__ == "__main__":
                 agent.replay(batch_size)
 
             agent.set_weights()
-

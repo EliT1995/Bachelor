@@ -6,7 +6,6 @@ from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
 from keras.optimizers import Adam
-from ScoreLogger import ScoreLogger
 
 EPISODES = 1000
 
@@ -54,8 +53,8 @@ class DQNAgent:
     def get_sample_random_batch_from_replay_memory(self):
         mini_batch = random.sample(self.memory, batch_size)
 
-        current_state_batch = np.zeros((batch_size, 4))
-        next_state_batch = np.zeros((batch_size, 4))
+        current_state_batch = np.zeros((batch_size, 6))
+        next_state_batch = np.zeros((batch_size, 6))
 
         actions, rewards, dead = [], [], []
 
@@ -100,10 +99,8 @@ class DQNAgent:
         self.target_model.set_weights(target_weights)
 
 if __name__ == "__main__":
-    env_name = 'CartPole-v0'
+    env_name = 'Acrobot-v1'
     env = gym.make(env_name)
-    threshold = 195
-    score_logger = ScoreLogger(env_name, threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -133,12 +130,15 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
-                #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
+                print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
                 break
 
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
             agent.set_weights()
+
+        #if step == 500:
+         #   print("Solved in run: {}, score: {}".format(run, step))
+          #  break
 
