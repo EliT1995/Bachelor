@@ -20,6 +20,7 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
+        self.tau = .125
         self.model = self._build_model()
         self.target_model = self._build_model()
 
@@ -94,10 +95,14 @@ class DQNAgent:
             self.epsilon *= self.epsilon_decay
 
     def set_weights(self):
-        self.target_model.set_weights(self.model.get_weights())
+        weights = self.model.get_weights()
+        target_weights = self.target_model.get_weights()
+        for i in range(len(target_weights)):
+            target_weights[i] = weights[i] * self.tau + target_weights[i] * (1 - self.tau)
+        self.target_model.set_weights(target_weights)
 
 if __name__ == "__main__":
-    env_name = 'CartPole-v1'
+    env_name = 'CartPole-v0'
     env = gym.make(env_name)
     score_logger = ScoreLogger(env_name)
 
@@ -128,13 +133,12 @@ if __name__ == "__main__":
             agent.remember(state, action, reward, next_state, done)
             state = next_state
 
+            if len(agent.memory) > batch_size:
+                agent.replay(batch_size)
+
+            agent.set_weights()
+
             if done:
                 print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
                 score_logger.add_score(step, run)
                 break
-
-            if len(agent.memory) > batch_size:
-                agent.replay(batch_size)
-
-            if run % 2 == 0:
-                agent.set_weights()
