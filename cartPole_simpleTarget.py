@@ -28,7 +28,7 @@ class DQNAgent:
         # Neural Net for Deep-Q learning Model
         model = Sequential()
         model.add(Dense(24, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(32, activation='relu'))
+        model.add(Dense(24, activation='relu'))
         model.add(Dense(self.action_size, activation='linear'))
         model.compile(loss='mse',
                       optimizer=Adam(lr=self.learning_rate))
@@ -68,7 +68,7 @@ class DQNAgent:
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
-    score_logger = ScoreLogger(env_name)
+    score_logger = ScoreLogger(env_name, 195)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n

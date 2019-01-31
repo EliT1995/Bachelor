@@ -113,9 +113,7 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    run = 0
-    while True:
-        run += 1
+    for run in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
