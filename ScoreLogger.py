@@ -27,6 +27,8 @@ class ScoreLogger:
             os.remove(SCORES_CSV_PATH)
 
     def add_score(self, score, run):
+        self.score = score
+        self.run = run
         self._save_csv(SCORES_CSV_PATH, score)
         self._save_png(input_path=SCORES_CSV_PATH,
                        output_path=SCORES_PNG_PATH,
@@ -39,7 +41,9 @@ class ScoreLogger:
         self.scores.append(score)
 
         mean_score = mean(self.scores)
-        print("Score: (min: {}, avg: {}, max: {})".format(min(self.scores), mean_score, max(self.scores)))
+        print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), mean_score, max(self.scores)))
+        print("Score: (self scores : {})".format(self.scores))
+
         if mean_score >= AVERAGE_SCORE_TO_SOLVE and len(self.scores) >= CONSECUTIVE_RUNS_TO_SOLVE:
             solve_score = run-CONSECUTIVE_RUNS_TO_SOLVE
             print("Solved in {} runs {} total runs".format(solve_score, run))

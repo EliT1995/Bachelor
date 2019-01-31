@@ -6,6 +6,8 @@ from keras.models import *
 from keras.layers import *
 from keras.optimizers import *
 
+from ScoreLogger import ScoreLogger
+
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -64,6 +66,8 @@ if __name__ == "__main__":
     target_model_change = 100
 
     env = gym.make('CartPole-v0')
+    score_logger = ScoreLogger('CartPole-v0')
+
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -73,7 +77,7 @@ if __name__ == "__main__":
     for episode in range(episodes):
         # reset state in the beginning of each game
         state = env.reset()
-        env.render()
+        #env.render()
         state = np.reshape(state, [1, state_size])
 
         for time_t in range(500):
@@ -87,8 +91,8 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
-                print("episode: {}, score: {}, e: {:.2}"
-                      .format(episode, time_t, agent.epsilon))
+                print("Run: {}, exploration: {}, score: {}".format(episode, agent.epsilon, time_t))
+                score_logger.add_score(time_t, episode)
                 break
 
             # train the agent with the experience of the episode

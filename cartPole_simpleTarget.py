@@ -6,6 +6,8 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
 
+from ScoreLogger import ScoreLogger
+
 EPISODES = 1000
 
 class DQNAgent:
@@ -18,6 +20,7 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
+        self.tau = .125
         self.model = self._build_model()
         self.target_model = self._build_model()
 
@@ -25,7 +28,7 @@ class DQNAgent:
         # Neural Net for Deep-Q learning Model
         model = Sequential()
         model.add(Dense(24, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(24, activation='relu'))
+        model.add(Dense(32, activation='relu'))
         model.add(Dense(self.action_size, activation='linear'))
         model.compile(loss='mse',
                       optimizer=Adam(lr=self.learning_rate))
@@ -52,39 +55,56 @@ class DQNAgent:
             self.model.fit(state, target_f, epochs=1, verbose=0)
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
+            self.epsilon = max(self.epsilon, self.epsilon_min)
 
     def set_weights(self):
-        self.target_model.set_weights(self.model.get_weights())
+        weights = self.model.get_weights()
+        target_weights = self.target_model.get_weights()
+        for i in range(len(target_weights)):
+            target_weights[i] = weights[i] * self.tau + target_weights[i] * (1 - self.tau)
+            self.target_model.set_weights(target_weights)
 
 
 if __name__ == "__main__":
-    env = gym.make('CartPole-v1')
+    env_name = 'CartPole-v0'
+    env = gym.make(env_name)
+    score_logger = ScoreLogger(env_name)
+
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
+
     agent = DQNAgent(state_size, action_size)
-    # agent.load("./save/cartpole-dqn.h5")
+
     done = False
     batch_size = 32
 
-    for e in range(EPISODES):
+    run = 0
+    while True:
+        run += 1
         state = env.reset()
         state = np.reshape(state, [1, state_size])
-        for time in range(500):
+
+        step = 0
+
+        while True:
+            step += 1
             # env.render()
             action = agent.act(state)
+
             next_state, reward, done, _ = env.step(action)
-            reward = reward if not done else -10
+            reward = reward if not done else -1
             next_state = np.reshape(next_state, [1, state_size])
+
             agent.remember(state, action, reward, next_state, done)
             state = next_state
+
             if done:
-                print("episode: {}/{}, score: {}, e: {:.2}"
-                      .format(e, EPISODES, time, agent.epsilon))
+                # print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
+                score_logger.add_score(step, run)
                 break
+
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
-            if e % 2 == 0:
-                agent.set_weights()
-        # if e % 10 == 0:
-        #     agent.save("./save/cartpole-dqn.h5")
+            agent.set_weights()
+

@@ -31,11 +31,8 @@ class DQNAgent:
 
         # Architecture of the Model
         first_hidden_layer = Dense(24, activation='relu')(frames_input)
-        second_hidden_layer = Dense(32, activation='relu')(first_hidden_layer)
-        third_hidden_layer = Dense(64, activation='relu')(second_hidden_layer)
-
-
-        output_layer = Dense(self.action_size)(third_hidden_layer)
+        second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
+        output_layer = Dense(self.action_size)(second_hidden_layer)
 
         filtered_output = Multiply(name='QValue')([output_layer, actions_input])
 
@@ -93,6 +90,7 @@ class DQNAgent:
 
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
+            self.epsilon = max(self.epsilon, self.epsilon_min)
 
     def set_weights(self):
         weights = self.model.get_weights()
@@ -133,12 +131,13 @@ if __name__ == "__main__":
             agent.remember(state, action, reward, next_state, done)
             state = next_state
 
+            if done:
+                #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
+                score_logger.add_score(step, run)
+                break
+
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
             agent.set_weights()
 
-            if done:
-                print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
-                break
