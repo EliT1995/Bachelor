@@ -120,7 +120,7 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            # env.render()
+            #env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -137,6 +137,13 @@ if __name__ == "__main__":
                 agent.replay(batch_size)
 
             agent.set_weights()
+
+        if step >= 199:
+            print("Failed to complete in trial {}".format(run))
+        else:
+            print("Completed in {} trials".format(run))
+            break
+
 
         #if step == 500:
          #   print("Solved in run: {}, score: {}".format(run, step))
