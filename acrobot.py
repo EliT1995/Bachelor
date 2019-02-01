@@ -7,8 +7,6 @@ from keras.layers import Dense
 from keras.layers import Multiply
 from keras.optimizers import Adam
 
-EPISODES = 1000
-
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -29,7 +27,7 @@ class DQNAgent:
         actions_input = Input((self.action_size,), name='mask')
 
         # Architecture of the Model
-        first_hidden_layer = Dense(24, activation='relu')(frames_input)
+        first_hidden_layer = Dense(32, activation='relu')(frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -77,7 +75,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1 #-reward[i]?
+                targets[i] = -1
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
@@ -92,11 +90,7 @@ class DQNAgent:
             self.epsilon = max(self.epsilon, self.epsilon_min)
 
     def set_weights(self):
-        weights = self.model.get_weights()
-        target_weights = self.target_model.get_weights()
-        for i in range(len(target_weights)):
-            target_weights[i] = weights[i] * self.tau + target_weights[i] * (1 - self.tau)
-        self.target_model.set_weights(target_weights)
+        self.target_model.set_weights(self.target_model.get_weights())
 
 if __name__ == "__main__":
     env_name = 'Acrobot-v1'
@@ -136,7 +130,8 @@ if __name__ == "__main__":
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
-            agent.set_weights()
+            if step % 8 == 0:
+                agent.set_weights()
 
         if step >= 199:
             print("Failed to complete in trial {}".format(run))
