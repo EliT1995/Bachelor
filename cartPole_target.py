@@ -78,7 +78,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1
+                targets[i] = -reward[i]
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])

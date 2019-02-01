@@ -54,8 +54,8 @@ class DQNAgent:
     def get_sample_random_batch_from_replay_memory(self):
         mini_batch = random.sample(self.memory, batch_size)
 
-        current_state_batch = np.zeros((batch_size, 8))
-        next_state_batch = np.zeros((batch_size, 8))
+        current_state_batch = np.zeros((batch_size, 2))
+        next_state_batch = np.zeros((batch_size, 2))
 
         actions, rewards, dead = [], [], []
 
@@ -78,7 +78,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -reward[i]
+                targets[i] = 1
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
@@ -100,9 +100,9 @@ class DQNAgent:
         self.target_model.set_weights(target_weights)
 
 if __name__ == "__main__":
-    env_name = 'LunarLander-v2'
+    env_name = 'MountainCar-v0'
     env = gym.make(env_name)
-    threshold = 200
+    threshold = -110
     score_logger = ScoreLogger(env_name, threshold)
 
     state_size = env.observation_space.shape[0]
@@ -113,9 +113,7 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    run = 0
-    while True:
-        run += 1
+    for run in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
@@ -123,7 +121,7 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            # env.render()
+            env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -134,10 +132,11 @@ if __name__ == "__main__":
 
             if done:
                 #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
+                score_logger.add_score(-step, run)
                 break
 
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
             agent.set_weights()
+
