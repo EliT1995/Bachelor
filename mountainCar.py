@@ -31,8 +31,9 @@ class DQNAgent:
 
         # Architecture of the Model
         first_hidden_layer = Dense(24, activation='relu')(frames_input)
-        second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
-        output_layer = Dense(self.action_size)(second_hidden_layer)
+        second_hidden_layer = Dense(48, activation='relu')(first_hidden_layer)
+        third_hidden_layer = Dense(24, activation='relu')(second_hidden_layer)
+        output_layer = Dense(self.action_size)(third_hidden_layer)
 
         filtered_output = Multiply(name='QValue')([output_layer, actions_input])
 
@@ -78,7 +79,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = 1
+                targets[i] = reward[i]
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
@@ -112,8 +113,9 @@ if __name__ == "__main__":
 
     done = False
     batch_size = 32
-
-    for run in range(1000):
+    run = 0
+    while True:
+        run += 1
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
@@ -121,7 +123,7 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            env.render()
+            #env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)

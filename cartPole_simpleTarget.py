@@ -46,7 +46,7 @@ class DQNAgent:
     def replay(self, batch_size):
         minibatch = random.sample(self.memory, batch_size)
         for state, action, reward, next_state, done in minibatch:
-            target = reward
+            target = -1 #-reward[i]?
             if not done:
                 target = (reward + self.gamma *
                           np.amax(self.target_model.predict(next_state)[0]))
