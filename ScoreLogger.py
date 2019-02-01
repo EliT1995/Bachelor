@@ -22,10 +22,10 @@ class ScoreLogger:
         self.env_name = env_name
         self.AVERAGE_SCORE_TO_SOLVE = threshold
 
-        self.SCORES_CSV_PATH = "./scores_{}.csv".format(env_name)
-        self.SCORES_PNG_PATH = "./scores_{}.png".format(env_name)
-        self.SOLVED_CSV_PATH = "./solved_{}.csv".format(env_name)
-        self.SOLVED_PNG_PATH = "./solved_{}.png".format(env_name)
+        self.SCORES_CSV_PATH = "./scores/scores_{}.csv".format(env_name)
+        self.SCORES_PNG_PATH = "./scores/scores_{}.png".format(env_name)
+        self.SOLVED_CSV_PATH = "./scores/solved_{}.csv".format(env_name)
+        self.SOLVED_PNG_PATH = "./scores/solved_{}.png".format(env_name)
 
         if os.path.exists(self.SCORES_PNG_PATH):
             os.remove(self.SCORES_PNG_PATH)

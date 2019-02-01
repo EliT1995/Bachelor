@@ -145,7 +145,3 @@ if __name__ == "__main__":
             break
 
 
-        #if step == 500:
-         #   print("Solved in run: {}, score: {}".format(run, step))
-          #  break
-
