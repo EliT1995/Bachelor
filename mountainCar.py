@@ -27,7 +27,7 @@ class DQNAgent:
         actions_input = Input((self.action_size,), name='mask')
 
         # Architecture of the Model
-        first_hidden_layer = Dense(32, activation='relu')(frames_input)
+        first_hidden_layer = Dense(24, activation='relu')(frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 

@@ -27,7 +27,7 @@ class DQNAgent:
         actions_input = Input((self.action_size,), name='mask')
 
         # Architecture of the Model
-        first_hidden_layer = Dense(32, activation='relu')(frames_input)
+        first_hidden_layer = Dense(24, activation='relu')(frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -90,10 +90,6 @@ class DQNAgent:
             self.epsilon = max(self.epsilon, self.epsilon_min)
 
     def set_weights(self):
-        weights = self.model.get_weights()
-        target_weights = self.target_model.get_weights()
-        for i in range(len(target_weights)):
-            target_weights[i] = weights[i] * self.tau + target_weights[i] * (1 - self.tau)
         self.target_model.set_weights(self.model.get_weights())
 
 if __name__ == "__main__":
