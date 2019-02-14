@@ -78,7 +78,7 @@ class DQNAgent:
                 targets[i] = -1
 
             else:
-                targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**2 * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -93,11 +93,13 @@ class DQNAgent:
         self.target_model.set_weights(self.model.get_weights())
 
     def discount(self, rewards):
-        """ Compute the gamma-discounted rewards over an episode
-        """
+        #Compute the gamma-discounted rewards over an episode
+        last_rewards = rewards[-2:]
         discounted_reward = 0
-        discounted_reward = rewards[len(rewards)-1] + rewards[len(rewards)-2] * self.gamma + rewards[len(rewards)-3] * self.gamma * self.gamma
+        for t in reversed(range(0, len(last_rewards))):
+            discounted_reward = last_rewards[t] + discounted_reward * self.gamma
         return discounted_reward
+
 
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
