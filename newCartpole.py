@@ -78,7 +78,7 @@ class DQNAgent:
                 targets[i] = -1
 
             else:
-                targets[i] = reward[i] + self.gamma**2 * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -94,7 +94,7 @@ class DQNAgent:
 
     def discount(self, rewards):
         #Compute the gamma-discounted rewards over an episode
-        last_rewards = rewards[-2:]
+        last_rewards = rewards[-3:]
         discounted_reward = 0
         for t in reversed(range(0, len(last_rewards))):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
