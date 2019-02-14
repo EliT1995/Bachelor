@@ -92,6 +92,13 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
+    def discount(self, rewards):
+        """ Compute the gamma-discounted rewards over an episode
+        """
+        discounted_reward = 0
+        discounted_reward = rewards[len(rewards)-1] + rewards[len(rewards)-2] * self.gamma + rewards[len(rewards)-3] * self.gamma * self.gamma
+        return discounted_reward
+
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
@@ -111,6 +118,7 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        discounted_rewards = []
 
         while True:
             step += 1
@@ -119,6 +127,9 @@ if __name__ == "__main__":
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
+
+            discounted_rewards.append(reward)
+            reward = agent.discount(discounted_rewards)
 
             agent.remember(state, action, reward, next_state, done)
             state = next_state
