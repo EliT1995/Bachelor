@@ -5,6 +5,7 @@ from collections import deque
 from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
+from keras import initializers
 from keras.optimizers import Adam
 from ScoreLogger import ScoreLogger
 
@@ -26,8 +27,11 @@ class DQNAgent:
         frames_input = Input(shape=(self.state_size,), name='frames')
         actions_input = Input((self.action_size,), name='mask')
 
+        initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
+
         # Architecture of the Model
-        first_hidden_layer = Dense(16, activation='relu')(frames_input)
+        first_hidden_layer = Dense(16, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(
+            frames_input)
         second_hidden_layer = Dense(8, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -105,7 +109,7 @@ if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = ScoreLogger(env_name, threshold)
+    score_logger = ScoreLogger('CartPole-v0_new', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n

@@ -115,7 +115,7 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            #env.render()
+            env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -125,8 +125,7 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
-                #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(-step, run)
+                print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
                 break
 
             if len(agent.memory) > batch_size:
@@ -134,4 +133,10 @@ if __name__ == "__main__":
 
             if step % 8 == 0:
                 agent.set_weights()
+
+        if step >= 199:
+            print("Failed to complete in trial {}".format(run))
+        else:
+            print("Completed in {} trials".format(run))
+            break
 

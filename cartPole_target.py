@@ -6,6 +6,7 @@ from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
 from keras.optimizers import Adam
+from keras import initializers
 from ScoreLogger import ScoreLogger
 
 class DQNAgent:
@@ -26,8 +27,10 @@ class DQNAgent:
         frames_input = Input(shape=(self.state_size,), name='frames')
         actions_input = Input((self.action_size,), name='mask')
 
+        initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
+
         # Architecture of the Model
-        first_hidden_layer = Dense(16, activation='relu')(frames_input)
+        first_hidden_layer = Dense(16, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
         second_hidden_layer = Dense(8, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
