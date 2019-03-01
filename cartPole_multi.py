@@ -5,8 +5,8 @@ from collections import deque
 from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
-from keras import initializers
 from keras.optimizers import Adam
+from keras import initializers
 from ScoreLogger import ScoreLogger
 
 class DQNAgent:
@@ -30,8 +30,7 @@ class DQNAgent:
         initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
 
         # Architecture of the Model
-        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(
-            frames_input)
+        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -82,7 +81,7 @@ class DQNAgent:
                 targets[i] = -1
 
             else:
-                targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -96,25 +95,20 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    def discount(self, rewards):
-        #Compute the gamma-discounted rewards over an episode
-        last_rewards = rewards[-3:]
-        discounted_reward = 0
-        for t in reversed(range(0, len(last_rewards))):
-            discounted_reward = last_rewards[t] + discounted_reward * self.gamma
-        return discounted_reward
-
-
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = ScoreLogger('CartPole-v0_new', threshold)
+    score_logger = ScoreLogger('CartPole-v0_multi', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
 
-    agent = DQNAgent(state_size, action_size)
+    agent1 = DQNAgent(state_size, action_size)
+    agent2 = DQNAgent(state_size, action_size)
+    agent2.target_model = agent1.model
+    agent3 = DQNAgent(state_size, action_size)
+    agent3.target_model = agent2.model
 
     done = False
     batch_size = 32
@@ -124,30 +118,28 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
-        discounted_rewards = []
 
         while True:
             step += 1
             # env.render()
-            action = agent.act(state)
+            action = agent3.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            discounted_rewards.append(reward)
-            reward = agent.discount(discounted_rewards)
-
-            agent.remember(state, action, reward, next_state, done)
+            agent3.remember(state, action, reward, next_state, done)
             state = next_state
 
             if done:
-                print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
+                print("Run: {}, exploration: {}, score: {}".format(run, agent3.epsilon, step))
                 score_logger.add_score(step, run)
                 break
 
-            if len(agent.memory) > batch_size:
-                agent.replay(batch_size)
+            if len(agent3.memory) > batch_size:
+                agent3.replay(batch_size)
 
             if step % 8 == 0:
-                agent.set_weights()
+                agent1.set_weights()
+                agent2.set_weights()
+                agent3.set_weights()
 
