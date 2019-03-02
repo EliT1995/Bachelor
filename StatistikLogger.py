@@ -19,17 +19,11 @@ class StatistikLogger:
         self.env_name = env_name
         self.AVERAGE_SCORE_TO_SOLVE = threshold
 
-        self.SCORES_CSV_PATH = "./scores/scores_{}.csv".format(env_name)
-        self.SCORES_PNG_PATH = "./scores/scores_{}.png".format(env_name)
-        self.SOLVED_CSV_PATH = "./scores/solved_{}.csv".format(env_name)
-        self.SOLVED_PNG_PATH = "./scores/solved_{}.png".format(env_name)
+        self.SOLVED_CSV_PATH = "./solved_{}.csv".format(env_name)
+        self.SOLVED_PNG_PATH = "./solved_{}.png".format(env_name)
 
-        if os.path.exists(self.SCORES_CSV_PATH):
-            os.remove(self.SCORES_CSV_PATH)
         if os.path.exists(self.SOLVED_CSV_PATH):
             os.remove(self.SOLVED_CSV_PATH)
-        if os.path.exists(self.SCORES_PNG_PATH):
-            os.remove(self.SCORES_PNG_PATH)
         if os.path.exists(self.SOLVED_PNG_PATH):
             os.remove(self.SOLVED_PNG_PATH)
 
@@ -44,7 +38,7 @@ class StatistikLogger:
         print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), mean_score, max(self.scores)))
 
         if len(self.scoresDef) > 20:
-            solve_score = round(mean(self.scoresWindow))
+            solve_score = int(mean(self.scoresWindow))
             self._save_csv(self.SOLVED_CSV_PATH, solve_score)
             self._save_png(input_path=self.SOLVED_CSV_PATH,
                            output_path=self.SOLVED_PNG_PATH,
@@ -57,7 +51,7 @@ class StatistikLogger:
 
         if mean_score >= self.AVERAGE_SCORE_TO_SOLVE and len(self.scores) >= CONSECUTIVE_RUNS_TO_SOLVE:
             print("Solved in {} runs {} total runs".format(solve_score, run))
-            exit()
+            #exit()
 
     def _save_png(self, input_path, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
         x = []

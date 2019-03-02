@@ -16,10 +16,10 @@ class ScoreLogger:
 
     def __init__(self):
 
-        self.SOLVED_CSV_PATH1 = "./scores/solved_{}.csv".format("CartPole-v0")
-        self.SOLVED_CSV_PATH2 = "./scores/solved_{}.csv".format("CartPole-v0_new")
-        self.SOLVED_CSV_PATH3 = "./scores/solved_{}.csv".format("CartPole-v0_multi")
-        self.SOLVED_PNG_PATH = "./scores/solved_{}.png".format("CartPole-v0_combined")
+        self.SOLVED_CSV_PATH1 = "./solved_{}.csv".format("CartPole-v0")
+        self.SOLVED_CSV_PATH2 = "./solved_{}.csv".format("CartPole-v0_new")
+        self.SOLVED_CSV_PATH3 = "./solved_{}.csv".format("CartPole-v0_multi")
+        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_combined")
 
     def add_score(self):
             self._save_png(input_path1=self.SOLVED_CSV_PATH1, input_path2=self.SOLVED_CSV_PATH2, input_path3=self.SOLVED_CSV_PATH3,
@@ -29,7 +29,7 @@ class ScoreLogger:
                            average_of_n_last=None,
                            show_goal=False,
                            show_trend=False,
-                           show_legend=False)
+                           show_legend=True)
 
     def _save_png(self, input_path1, input_path2, input_path3, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
         x = []
@@ -42,7 +42,7 @@ class ScoreLogger:
                 y.append(int(data[i][0]))
 
         plt.subplots()
-        plt.plot(x, y, 'r')
+        plt.plot(x, y, 'r', label="CartPole-v0")
 
         x = []
         y = []
@@ -53,7 +53,7 @@ class ScoreLogger:
                 x.append(int(i))
                 y.append(int(data[i][0]))
 
-        plt.plot(x, y)
+        plt.plot(x, y, label="CartPole-v0_new")
 
         x = []
         y = []
@@ -64,7 +64,7 @@ class ScoreLogger:
                 x.append(int(i))
                 y.append(int(data[i][0]))
 
-        plt.plot(x, y, 'g')
+        plt.plot(x, y, 'g', label="CartPole-v0_multi")
 
         plt.title("CartPole")
         plt.xlabel(x_label)
