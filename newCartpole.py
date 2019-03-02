@@ -7,7 +7,7 @@ from keras.layers import Dense
 from keras.layers import Multiply
 from keras import initializers
 from keras.optimizers import Adam
-from ScoreLogger import ScoreLogger
+from StatistikLogger import StatistikLogger
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = ScoreLogger('CartPole-v0_new', threshold)
+    score_logger = StatistikLogger('CartPole-v0_new', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
