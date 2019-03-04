@@ -109,45 +109,47 @@ if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = StatistikLogger('CartPole-v0_new', threshold)
 
-    state_size = env.observation_space.shape[0]
-    action_size = env.action_space.n
+    for run in range(100):
+        score_logger = StatistikLogger('CartPole-v0_new{}'.format(run), threshold)
 
-    agent = DQNAgent(state_size, action_size)
+        state_size = env.observation_space.shape[0]
+        action_size = env.action_space.n
 
-    done = False
-    batch_size = 32
+        agent = DQNAgent(state_size, action_size)
 
-    for run in range(1000):
-        state = env.reset()
-        state = np.reshape(state, [1, state_size])
+        done = False
+        batch_size = 32
 
-        step = 0
-        discounted_rewards = []
+        for episode in range(1000):
+            state = env.reset()
+            state = np.reshape(state, [1, state_size])
 
-        while True:
-            step += 1
-            # env.render()
-            action = agent.act(state)
+            step = 0
+            discounted_rewards = []
 
-            next_state, reward, done, _ = env.step(action)
-            next_state = np.reshape(next_state, [1, state_size])
+            while True:
+                step += 1
+                # env.render()
+                action = agent.act(state)
 
-            discounted_rewards.append(reward)
-            reward = agent.discount(discounted_rewards)
+                next_state, reward, done, _ = env.step(action)
+                next_state = np.reshape(next_state, [1, state_size])
 
-            agent.remember(state, action, reward, next_state, done)
-            state = next_state
+                discounted_rewards.append(reward)
+                reward = agent.discount(discounted_rewards)
 
-            if done:
-                print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
-                break
+                agent.remember(state, action, reward, next_state, done)
+                state = next_state
 
-            if len(agent.memory) > batch_size:
-                agent.replay(batch_size)
+                if done:
+                    print("Run: {}, exploration: {}, score: {}".format(episode, agent.epsilon, step))
+                    score_logger.add_score(step, episode)
+                    break
 
-            if step % 8 == 0:
-                agent.set_weights()
+                if len(agent.memory) > batch_size:
+                    agent.replay(batch_size)
+
+                if step % 8 == 0:
+                    agent.set_weights()
 

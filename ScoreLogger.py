@@ -6,6 +6,7 @@ from collections import deque
 import os
 import csv
 import numpy as np
+import pandas
 
 #SCORES_CSV_PATH = "./scores.csv"
 #SCORES_PNG_PATH = "./scores.png"
@@ -79,4 +80,7 @@ class ScoreLogger:
 if __name__ == "__main__":
 
     score_logger = ScoreLogger()
-    score_logger.add_score()
+    #score_logger.add_score()
+
+    df = pandas.read_csv("./scores/solved_CartPole-v0.csv")
+    df.info()

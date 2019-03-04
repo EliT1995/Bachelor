@@ -9,6 +9,7 @@ from keras.optimizers import Adam
 from keras import initializers
 from StatistikLogger import StatistikLogger
 
+
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -99,47 +100,49 @@ if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = StatistikLogger('CartPole-v0_multi', threshold)
 
-    state_size = env.observation_space.shape[0]
-    action_size = env.action_space.n
+    for run in range(100):
+        score_logger = StatistikLogger('CartPole-v0_multi{}'.format(run), threshold)
 
-    agent1 = DQNAgent(state_size, action_size)
-    agent2 = DQNAgent(state_size, action_size)
-    agent2.target_model = agent1.model
-    agent3 = DQNAgent(state_size, action_size)
-    agent3.target_model = agent2.model
+        state_size = env.observation_space.shape[0]
+        action_size = env.action_space.n
 
-    done = False
-    batch_size = 32
+        agent1 = DQNAgent(state_size, action_size)
+        agent2 = DQNAgent(state_size, action_size)
+        agent2.target_model = agent1.model
+        agent3 = DQNAgent(state_size, action_size)
+        agent3.target_model = agent2.model
 
-    for run in range(1000):
-        state = env.reset()
-        state = np.reshape(state, [1, state_size])
+        done = False
+        batch_size = 32
 
-        step = 0
+        for episode in range(1000):
+            state = env.reset()
+            state = np.reshape(state, [1, state_size])
 
-        while True:
-            step += 1
-            # env.render()
-            action = agent3.act(state)
+            step = 0
 
-            next_state, reward, done, _ = env.step(action)
-            next_state = np.reshape(next_state, [1, state_size])
+            while True:
+                step += 1
+                env.render()
+                action = agent3.act(state)
 
-            agent3.remember(state, action, reward, next_state, done)
-            state = next_state
+                next_state, reward, done, _ = env.step(action)
+                next_state = np.reshape(next_state, [1, state_size])
 
-            if done:
-                print("Run: {}, exploration: {}, score: {}".format(run, agent3.epsilon, step))
-                score_logger.add_score(step, run)
-                break
+                agent3.remember(state, action, reward, next_state, done)
+                state = next_state
 
-            if len(agent3.memory) > batch_size:
-                agent3.replay(batch_size)
+                if done:
+                    print("Run: {}, exploration: {}, score: {}".format(episode, agent3.epsilon, step))
+                    score_logger.add_score(step, episode)
+                    break
 
-            if step % 8 == 0:
-                agent1.set_weights()
-                agent2.set_weights()
-                agent3.set_weights()
+                if len(agent3.memory) > batch_size:
+                    agent3.replay(batch_size)
+
+                if step % 8 == 0:
+                    agent1.set_weights()
+                    agent2.set_weights()
+                    agent3.set_weights()
 

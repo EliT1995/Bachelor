@@ -13,7 +13,6 @@ CONSECUTIVE_RUNS_TO_SOLVE = 100
 class StatistikLogger:
 
     def __init__(self, env_name, threshold):
-        self.scoresDef = deque(maxlen=CONSECUTIVE_RUNS_TO_SOLVE)
         self.scores = deque(maxlen=CONSECUTIVE_RUNS_TO_SOLVE)
         self.scoresWindow = deque(maxlen=20)
         self.env_name = env_name
@@ -31,13 +30,12 @@ class StatistikLogger:
         self.score = score
         self.run = run
 
-        self.scoresDef.append(score)
-        mean_score = round(mean(self.scoresDef))
-        self.scores.append(mean_score)
+        self.scores.append(score)
+        mean_score = round(mean(self.scores))
         self.scoresWindow.append(mean_score)
         print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), mean_score, max(self.scores)))
 
-        if len(self.scoresDef) > 20:
+        if len(self.scoresWindow) > 20:
             solve_score = int(mean(self.scoresWindow))
             self._save_csv(self.SOLVED_CSV_PATH, solve_score)
             self._save_png(input_path=self.SOLVED_CSV_PATH,
