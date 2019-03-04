@@ -80,7 +80,4 @@ class ScoreLogger:
 if __name__ == "__main__":
 
     score_logger = ScoreLogger()
-    #score_logger.add_score()
-
-    df = pandas.read_csv("./scores/solved_CartPole-v0.csv")
-    df.info()
+    score_logger.add_score()

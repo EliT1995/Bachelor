@@ -101,48 +101,47 @@ if __name__ == "__main__":
     env = gym.make(env_name)
     threshold = 195
 
-    for run in range(100):
-        score_logger = StatistikLogger('CartPole-v0_multi{}'.format(run), threshold)
+    score_logger = StatistikLogger('CartPole-v0_multi', threshold)
 
-        state_size = env.observation_space.shape[0]
-        action_size = env.action_space.n
+    state_size = env.observation_space.shape[0]
+    action_size = env.action_space.n
 
-        agent1 = DQNAgent(state_size, action_size)
-        agent2 = DQNAgent(state_size, action_size)
-        agent2.target_model = agent1.model
-        agent3 = DQNAgent(state_size, action_size)
-        agent3.target_model = agent2.model
+    agent1 = DQNAgent(state_size, action_size)
+    agent2 = DQNAgent(state_size, action_size)
+    agent2.target_model = agent1.model
+    agent3 = DQNAgent(state_size, action_size)
+    agent3.target_model = agent2.model
 
-        done = False
-        batch_size = 32
+    done = False
+    batch_size = 32
 
-        for episode in range(1000):
-            state = env.reset()
-            state = np.reshape(state, [1, state_size])
+    for episode in range(1000):
+        state = env.reset()
+        state = np.reshape(state, [1, state_size])
 
-            step = 0
+        step = 0
 
-            while True:
-                step += 1
-                env.render()
-                action = agent3.act(state)
+        while True:
+            step += 1
+            #env.render()
+            action = agent3.act(state)
 
-                next_state, reward, done, _ = env.step(action)
-                next_state = np.reshape(next_state, [1, state_size])
+            next_state, reward, done, _ = env.step(action)
+            next_state = np.reshape(next_state, [1, state_size])
 
-                agent3.remember(state, action, reward, next_state, done)
-                state = next_state
+            agent3.remember(state, action, reward, next_state, done)
+            state = next_state
 
-                if done:
-                    print("Run: {}, exploration: {}, score: {}".format(episode, agent3.epsilon, step))
-                    score_logger.add_score(step, episode)
-                    break
+            if done:
+                print("Run: {}, exploration: {}, score: {}".format(episode, agent3.epsilon, step))
+                score_logger.add_score(step, episode)
+                break
 
-                if len(agent3.memory) > batch_size:
-                    agent3.replay(batch_size)
+            if len(agent3.memory) > batch_size:
+                agent3.replay(batch_size)
 
-                if step % 8 == 0:
-                    agent1.set_weights()
-                    agent2.set_weights()
-                    agent3.set_weights()
+            if step % 8 == 0:
+                agent1.set_weights()
+                agent2.set_weights()
+                agent3.set_weights()
 
