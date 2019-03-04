@@ -111,7 +111,7 @@ if __name__ == "__main__":
     threshold = 195
 
     for run in range(100):
-        score_logger = StatistikLogger('CartPole-v0_new{}'.format(run), threshold)
+        score_logger = StatistikLogger('CartPole-v0_new', threshold)
 
         state_size = env.observation_space.shape[0]
         action_size = env.action_space.n
@@ -137,9 +137,11 @@ if __name__ == "__main__":
                 next_state = np.reshape(next_state, [1, state_size])
 
                 discounted_rewards.append(reward)
-                reward = agent.discount(discounted_rewards)
 
-                agent.remember(state, action, reward, next_state, done)
+                if len(discounted_rewards) > 2:
+                    reward = agent.discount(discounted_rewards)
+
+                    agent.remember(state, action, reward, next_state, done)
                 state = next_state
 
                 if done:

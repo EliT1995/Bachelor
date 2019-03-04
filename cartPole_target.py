@@ -101,7 +101,7 @@ if __name__ == "__main__":
     threshold = 195
 
     for run in range(100):
-        score_logger = StatistikLogger('CartPole-v0{}'.format(run), threshold)
+        score_logger = StatistikLogger('CartPole-v0', threshold)
 
         state_size = env.observation_space.shape[0]
         action_size = env.action_space.n
