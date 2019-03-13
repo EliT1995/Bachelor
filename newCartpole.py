@@ -111,15 +111,10 @@ class DQNAgent:
         for t in range(0, len(last_rewards)):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
 
-        #if discounted_reward == 0:
-            #return 1
         return discounted_reward
 
     def get_next_state(self, timeStep, states):
-        #Compute the gamma-discounted rewards over an episode
         next_state = states[timeStep:timeStep + 3]
-        #if next_state == []:
-            #return states[0]
         return next_state[len(next_state)-1]
 
 
