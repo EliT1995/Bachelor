@@ -111,15 +111,15 @@ class DQNAgent:
         for t in range(0, len(last_rewards)):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
 
-        if discounted_reward == 0:
-            return 1
+        #if discounted_reward == 0:
+            #return 1
         return discounted_reward
 
     def get_next_state(self, timeStep, states):
         #Compute the gamma-discounted rewards over an episode
         next_state = states[timeStep:timeStep + 3]
-        if next_state == []:
-            return states[0]
+        #if next_state == []:
+            #return states[0]
         return next_state[len(next_state)-1]
 
 
@@ -139,14 +139,15 @@ if __name__ == "__main__":
         done = False
         batch_size = 32
 
+        discounted_rewards = []
+        next_states = []
+        timeStep = 0
+
         for episode in range(1000):
             state = env.reset()
             state = np.reshape(state, [1, state_size])
 
             step = 0
-            discounted_rewards = []
-            next_states = []
-            timeStep = 0
 
             while True:
                 step += 1
