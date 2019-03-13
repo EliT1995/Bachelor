@@ -9,6 +9,9 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
+discounted_rewards = []
+next_states = []
+
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -42,8 +45,8 @@ class DQNAgent:
 
         return model
 
-    def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done))
+    def remember(self, state, action, reward, timeStep, next_state, done):
+        self.memory.append((state, action, reward, timeStep, next_state, done))
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -58,24 +61,29 @@ class DQNAgent:
         current_state_batch = np.zeros((batch_size, 4))
         next_state_batch = np.zeros((batch_size, 4))
 
-        actions, rewards, dead = [], [], []
+        actions, rewards, timeStep, dead = [], [], [], []
 
         for idx, val in enumerate(mini_batch):
             current_state_batch[idx] = val[0]
             actions.append(val[1])
             rewards.append(val[2])
-            next_state_batch[idx] = val[3]
-            dead.append(val[4])
+            timeStep.append(val[3])
+            next_state_batch[idx] = val[4]
+            dead.append(val[5])
 
-        return current_state_batch, actions, rewards, next_state_batch, dead
+        return current_state_batch, actions, rewards, timeStep, next_state_batch, dead
 
     def replay(self, batch_size):
-        state, action, reward, next_state, done = self.get_sample_random_batch_from_replay_memory()
+        state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
         next_Q_values = self.target_model.predict([next_state, action_mask])
 
         targets = np.zeros((batch_size,))
+
+        for i in range(batch_size):
+            next_state[i] = self.get_next_state(timeStep[i], next_states)
+            reward[i] = self.discount(timeStep[i], discounted_rewards)
 
         for i in range(batch_size):
             if done[i]:
@@ -96,13 +104,23 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    def discount(self, rewards):
+    def discount(self, timeStep, rewards):
         #Compute the gamma-discounted rewards over an episode
-        last_rewards = rewards[-3:]
+        last_rewards = rewards[timeStep:timeStep + 3]
         discounted_reward = 0
-        for t in reversed(range(0, len(last_rewards))):
+        for t in range(0, len(last_rewards)):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
+
+        if discounted_reward == 0:
+            return 1
         return discounted_reward
+
+    def get_next_state(self, timeStep, states):
+        #Compute the gamma-discounted rewards over an episode
+        next_state = states[timeStep:timeStep + 3]
+        if next_state == []:
+            return states[0]
+        return next_state[len(next_state)-1]
 
 
 if __name__ == "__main__":
@@ -127,6 +145,8 @@ if __name__ == "__main__":
 
             step = 0
             discounted_rewards = []
+            next_states = []
+            timeStep = 0
 
             while True:
                 step += 1
@@ -137,11 +157,10 @@ if __name__ == "__main__":
                 next_state = np.reshape(next_state, [1, state_size])
 
                 discounted_rewards.append(reward)
+                next_states.append(next_state)
+                timeStep = step - 1
 
-                if len(discounted_rewards) > 2:
-                    reward = agent.discount(discounted_rewards)
-
-                    agent.remember(state, action, reward, next_state, done)
+                agent.remember(state, action, reward, timeStep, next_state, done)
                 state = next_state
 
                 if done:
