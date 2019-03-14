@@ -106,6 +106,7 @@ class DQNAgent:
 
     def discount(self, timeStep, rewards):
         #Compute the gamma-discounted rewards over an episode
+        timeStep = timeStep - 1
         last_rewards = rewards[timeStep:timeStep + 3]
         discounted_reward = 0
         for t in range(0, len(last_rewards)):
@@ -114,6 +115,7 @@ class DQNAgent:
         return discounted_reward
 
     def get_next_state(self, timeStep, states):
+        timeStep = timeStep - 1
         next_state = states[timeStep:timeStep + 3]
         return next_state[len(next_state)-1]
 
@@ -146,6 +148,7 @@ if __name__ == "__main__":
 
             while True:
                 step += 1
+                timeStep += 1
                 # env.render()
                 action = agent.act(state)
 
@@ -154,7 +157,6 @@ if __name__ == "__main__":
 
                 discounted_rewards.append(reward)
                 next_states.append(next_state)
-                timeStep = step - 1
 
                 agent.remember(state, action, reward, timeStep, next_state, done)
                 state = next_state
