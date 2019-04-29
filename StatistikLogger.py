@@ -12,14 +12,15 @@ CONSECUTIVE_RUNS_TO_SOLVE = 100
 
 class StatistikLogger:
 
-    def __init__(self, env_name, threshold):
+    def __init__(self, env_name, run, threshold):
         self.scores = deque(maxlen=CONSECUTIVE_RUNS_TO_SOLVE)
         self.scoresWindow = deque(maxlen=20)
         self.env_name = env_name
         self.AVERAGE_SCORE_TO_SOLVE = threshold
 
-        self.SOLVED_CSV_PATH = "./scores_{}/solved_{}.csv".format(env_name, env_name)
-        self.SOLVED_PNG_PATH = "./scores_{}/solved_{}.png".format(env_name, env_name)
+        fileName = env_name + str(run)
+        self.SOLVED_CSV_PATH = "./scores_{}/solved_{}.csv".format(env_name, fileName)
+        self.SOLVED_PNG_PATH = "./scores_{}/solved_{}.png".format(env_name, fileName)
 
         if os.path.exists(self.SOLVED_PNG_PATH):
             os.remove(self.SOLVED_PNG_PATH)
