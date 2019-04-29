@@ -123,7 +123,7 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            env.render()
+            #env.render()
             action = agent3.act(state)
 
             next_state, reward, done, _ = env.step(action)
