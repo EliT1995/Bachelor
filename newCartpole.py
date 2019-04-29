@@ -108,6 +108,10 @@ class DQNAgent:
         #Compute the gamma-discounted rewards over an episode
         timeStep = timeStep - 1
         last_rewards = rewards[timeStep:timeStep + 3]
+
+        if len(last_rewards) > 3 and last_rewards[1] == -1:
+            last_rewards.pop(2)
+
         discounted_reward = 0
         for t in range(0, len(last_rewards)):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
