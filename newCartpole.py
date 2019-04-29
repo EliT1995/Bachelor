@@ -85,12 +85,12 @@ class DQNAgent:
             next_state[i] = self.get_next_state(timeStep[i], next_states)
             reward[i] = self.discount(timeStep[i], discounted_rewards)
 
-        for i in range(batch_size):
-            if done[i]:
-                targets[i] = -1
+        #for i in range(batch_size):
+            #if done[i]:
+                #targets[i] = -1
 
-            else:
-                targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
+            #else:
+            targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -109,6 +109,7 @@ class DQNAgent:
         timeStep = timeStep - 1
         last_rewards = rewards[timeStep:timeStep + 3]
         discounted_reward = 0
+
         for t in range(0, len(last_rewards)):
             discounted_reward = last_rewards[t] + discounted_reward * self.gamma
 
@@ -154,6 +155,9 @@ if __name__ == "__main__":
 
                 next_state, reward, done, _ = env.step(action)
                 next_state = np.reshape(next_state, [1, state_size])
+
+                if done:
+                    reward = -1
 
                 discounted_rewards.append(reward)
                 next_states.append(next_state)
