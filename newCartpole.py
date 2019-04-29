@@ -89,6 +89,9 @@ class DQNAgent:
             if done[i]:
                 targets[i] = -1
 
+            elif reward[i] < 2.85:
+                targets[i] = reward[i]
+
             else:
                 targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
 
@@ -114,7 +117,7 @@ class DQNAgent:
 
         discounted_reward = 0
         for t in range(0, len(last_rewards)):
-            discounted_reward = last_rewards[t] + discounted_reward * self.gamma
+            discounted_reward = discounted_reward + last_rewards[t] * self.gamma**t
 
         return discounted_reward
 
