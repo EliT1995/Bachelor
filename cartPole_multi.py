@@ -102,7 +102,7 @@ if __name__ == "__main__":
     threshold = 195
 
     for run in range(100):
-        score_logger = StatistikLogger('CartPole-v0_multi', threshold)
+        score_logger = StatistikLogger('CartPole-v0_multi{}'.format(run), threshold)
 
         state_size = env.observation_space.shape[0]
         action_size = env.action_space.n
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
             while True:
                 step += 1
-                env.render()
+                #env.render()
                 action = agent3.act(state)
 
                 next_state, reward, done, _ = env.step(action)

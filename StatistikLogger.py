@@ -18,11 +18,13 @@ class StatistikLogger:
         self.env_name = env_name
         self.AVERAGE_SCORE_TO_SOLVE = threshold
 
-        self.SOLVED_CSV_PATH = "./solved_{}.csv".format(env_name)
-        self.SOLVED_PNG_PATH = "./solved_{}.png".format(env_name)
+        self.SOLVED_CSV_PATH = "./scores_{}/solved_{}.csv".format(env_name, env_name)
+        self.SOLVED_PNG_PATH = "./scores_{}/solved_{}.png".format(env_name, env_name)
 
         if os.path.exists(self.SOLVED_PNG_PATH):
             os.remove(self.SOLVED_PNG_PATH)
+        if os.path.exists(self.SOLVED_CSV_PATH):
+            os.remove(self.SOLVED_CSV_PATH)
 
     def add_score(self, score, run):
         self.score = score
