@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f0006d3-b321-495f-b1c3-661d62261415" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/newCartpole.py" beforeDir="false" afterPath="$PROJECT_DIR$/newCartpole.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0.csv" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_combined.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_combined.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_multi.csv" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_multi.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_multi.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_multi.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_new.csv" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_new.csv" afterDir="false" />
@@ -30,9 +30,9 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="csv" value="21" />
+          <entry key="csv" value="24" />
           <entry key="h5" value="2" />
-          <entry key="png" value="136" />
+          <entry key="png" value="138" />
           <entry key="py" value="48" />
           <entry key="script" value="1" />
           <entry key="sh" value="21" />
@@ -40,8 +40,8 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Image" value="136" />
-          <entry key="PLAIN_TEXT" value="45" />
+          <entry key="Image" value="138" />
+          <entry key="PLAIN_TEXT" value="48" />
           <entry key="Python" value="48" />
         </counts>
       </usages-collector>
@@ -76,24 +76,20 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/script.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="162" selection-start-line="162" selection-end-line="162" />
+            <state relative-caret-position="302">
+              <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -229,7 +225,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.newCartpole">
+  <component name="RunManager" selected="Python.ScoreLogger">
     <configuration name="ScoreLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bachelor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -344,10 +340,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.newCartpole" />
         <item itemvalue="Python.cartPole_multi" />
         <item itemvalue="Python.cartPole" />
-        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.StatistikLogger" />
       </list>
     </recent_temporary>
@@ -374,8 +370,8 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3272472" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49964765" weight="0.15168539" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49964765" visible="true" weight="0.33707866" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49964765" visible="true" weight="0.25421348" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49964765" weight="0.33707866" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -486,7 +482,6 @@
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_multi.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0.csv" />
-    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.csv" />
     <entry file="file://$PROJECT_DIR$/DQN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="489">
@@ -559,9 +554,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/cartPole_multi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
@@ -569,15 +561,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-994" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="162" selection-start-line="162" selection-end-line="162" />
+        <state relative-caret-position="302">
+          <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png">
+      <provider selected="true" editor-type-id="images" />
     </entry>
   </component>
 </project>
