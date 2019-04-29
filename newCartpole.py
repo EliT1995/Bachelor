@@ -154,6 +154,9 @@ if __name__ == "__main__":
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
+            if done:
+                reward = -1
+
             discounted_rewards.append(reward)
             next_states.append(next_state)
 
