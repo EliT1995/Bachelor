@@ -82,7 +82,7 @@ class DQNAgent:
         targets = np.zeros((batch_size,))
 
         for i in range(batch_size):
-            next_state[i] = self.get_next_state(timeStep[i], next_states)
+            next_state[i] = self.get_next_state(timeStep[i])
             reward[i] = self.discount(timeStep[i], discounted_rewards)
 
         for i in range(batch_size):
@@ -110,21 +110,25 @@ class DQNAgent:
     def discount(self, timeStep, rewards):
         #Compute the gamma-discounted rewards over an episode
         timeStep = timeStep - 1
-        last_rewards = rewards[timeStep:timeStep + 3]
+        discounted_rewards = 0
 
-        if len(last_rewards) > 3 and last_rewards[1] == -1:
-            last_rewards.pop(2)
+        for elem in self.memory:
+            if elem[3] == timeStep:
+                discounted_rewards = discounted_rewards + elem[2]
+            if elem[3] == timeStep + 1:
+                discounted_rewards = discounted_rewards + self.gamma*elem[2]
+                if elem[5] is True:
+                    return
+            if elem[3] == timeStep + 2:
+                discounted_rewards = discounted_rewards + elem[2]*self.gamma**2
 
-        discounted_reward = 0
-        for t in range(0, len(last_rewards)):
-            discounted_reward = discounted_reward + last_rewards[t] * self.gamma**t
+        return discounted_rewards
 
-        return discounted_reward
-
-    def get_next_state(self, timeStep, states):
+    def get_next_state(self, timeStep):
         timeStep = timeStep - 1
-        next_state = states[timeStep:timeStep + 3]
-        return next_state[len(next_state)-1]
+        for elem in self.memory:
+            if elem[3] == timeStep + 2:
+                return elem[4]
 
 
 if __name__ == "__main__":
@@ -160,9 +164,6 @@ if __name__ == "__main__":
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
-
-            if done:
-                reward = -1
 
             discounted_rewards.append(reward)
             next_states.append(next_state)
