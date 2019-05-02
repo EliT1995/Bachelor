@@ -77,19 +77,22 @@ class DQNAgent:
         state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
-        next_Q_values = self.target_model.predict([next_state, action_mask])
 
         targets = np.zeros((batch_size,))
+        next_state_done = np.zeros((batch_size,))
 
         for i in range(batch_size):
             next_state[i] = self.get_next_state(timeStep[i])
+            next_state_done[i] = self.get_next_state_done(timeStep[i])
             reward[i] = self.discount(timeStep[i], discounted_rewards)
+
+        next_Q_values = self.target_model.predict([next_state, action_mask])
 
         for i in range(batch_size):
             if done[i]:
                 targets[i] = -1
 
-            elif reward[i] < 2.85:
+            elif next_state_done[i]:
                 targets[i] = reward[i]
 
             else:
@@ -129,6 +132,12 @@ class DQNAgent:
         for elem in self.memory:
             if elem[3] == timeStep + 2:
                 return elem[4]
+
+    def get_next_state_done(self, timeStep):
+        timeStep = timeStep - 1
+        for elem in self.memory:
+            if elem[3] == timeStep + 2:
+                return elem[5]
 
 
 if __name__ == "__main__":
