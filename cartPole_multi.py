@@ -128,6 +128,7 @@ if __name__ == "__main__":
         while True:
             step += 1
             #env.render()
+            agent = agents[-1]
             action = agents[-1].act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -145,6 +146,6 @@ if __name__ == "__main__":
                 agents[-1].replay(batch_size)
 
             if step % 8 == 0:
-                for t in range(multi_step, 0):
-                    agents[t].set_weights()
+                for t in range(0,multi_step):
+                    agents[multi_step-1-t].set_weights()
 
