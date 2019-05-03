@@ -9,8 +9,6 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-discounted_rewards = []
-next_states = []
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -61,7 +59,7 @@ class DQNAgent:
         current_state_batch = np.zeros((batch_size, 4))
         next_state_batch = np.zeros((batch_size, 4))
 
-        actions, rewards, timeStep, dead = [], [], [], []
+        actions, rewards, timeStep, done = [], [], [], []
 
         for idx, val in enumerate(mini_batch):
             current_state_batch[idx] = val[0]
@@ -69,9 +67,9 @@ class DQNAgent:
             rewards.append(val[2])
             timeStep.append(val[3])
             next_state_batch[idx] = val[4]
-            dead.append(val[5])
+            done.append(val[5])
 
-        return current_state_batch, actions, rewards, timeStep, next_state_batch, dead
+        return current_state_batch, actions, rewards, timeStep, next_state_batch, done
 
     def replay(self, batch_size):
         state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
@@ -85,8 +83,6 @@ class DQNAgent:
             next_state[i] = self.get_next_state(timeStep[i])
             next_state_done[i] = self.get_next_state_done(timeStep[i])
             reward[i] = self.discount(timeStep[i], discounted_rewards)
-
-        print("next state train after {}".format(next_state))
 
         next_Q_values = self.target_model.predict([next_state, action_mask])
 
@@ -144,7 +140,7 @@ if __name__ == "__main__":
     env = gym.make(env_name)
     threshold = 195
 
-    score_logger = StatistikLogger('CartPole-v0_new1', threshold)
+    score_logger = StatistikLogger('CartPole-v0_new', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -172,9 +168,6 @@ if __name__ == "__main__":
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
-
-            discounted_rewards.append(reward)
-            next_states.append(next_state)
 
             agent.remember(state, action, reward, timeStep, next_state, done)
             state = next_state
