@@ -132,18 +132,10 @@ class DQNAgent:
         for elem in self.memory:
             if elem[3] == timeStep + 2:
                 return elem[4]
-            elif elem[3] == timeStep + 1:
-                return elem[4]
-            elif elem[3] == timeStep:
-                return elem[4]
 
     def get_next_state_done(self, timeStep):
         for elem in self.memory:
             if elem[3] == timeStep + 2:
-                return elem[5]
-            elif elem[3] == timeStep + 1:
-                return elem[5]
-            elif elem[3] == timeStep:
                 return elem[5]
 
 
