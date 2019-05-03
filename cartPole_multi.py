@@ -141,7 +141,7 @@ if __name__ == "__main__":
                 agent3.replay(batch_size)
 
             if step % 8 == 0:
-                agent1.set_weights()
-                agent2.set_weights()
                 agent3.set_weights()
+                agent2.set_weights()
+                agent1.set_weights()
 
