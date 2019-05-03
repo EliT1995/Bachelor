@@ -82,7 +82,7 @@ class DQNAgent:
         for i in range(batch_size):
             next_state[i] = self.get_next_state(timeStep[i])
             next_state_done[i] = self.get_next_state_done(timeStep[i])
-            reward[i] = self.discount(timeStep[i], discounted_rewards)
+            reward[i] = self.discount(timeStep[i])
 
         next_Q_values = self.target_model.predict([next_state, action_mask])
 
@@ -108,8 +108,9 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    def discount(self, timeStep, rewards):
+    def discount(self, timeStep):
         #Compute the gamma-discounted rewards over an episode
+
         discounted_rewards = 0
 
         for elem in self.memory:
@@ -150,8 +151,6 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    discounted_rewards = []
-    next_states = []
     timeStep = -1
 
     for episode in range(1000):

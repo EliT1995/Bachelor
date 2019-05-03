@@ -215,7 +215,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.cartPole_multi">
+  <component name="RunManager" selected="Python.ScoreLogger">
     <configuration name="ScoreLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bachelor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -330,9 +330,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.newCartpole" />
         <item itemvalue="Python.cartPole_multi" />
-        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.cartPole" />
         <item itemvalue="Python.StatistikLogger" />
       </list>
