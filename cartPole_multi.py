@@ -9,6 +9,7 @@ from keras.optimizers import Adam
 from keras import initializers
 from StatistikLogger import StatistikLogger
 
+multi_step = 3
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -106,11 +107,14 @@ if __name__ == "__main__":
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
 
-    agent1 = DQNAgent(state_size, action_size)
-    agent2 = DQNAgent(state_size, action_size)
-    agent2.target_model = agent1.model
-    agent3 = DQNAgent(state_size, action_size)
-    agent3.target_model = agent2.model
+    agents = []
+    agent = DQNAgent(state_size, action_size)
+    agents.append(agent)
+
+    for t in range(1, multi_step):
+        agent = DQNAgent(state_size, action_size)
+        agent.target_model = agents[t-1].model
+        agents.append(agent)
 
     done = False
     batch_size = 32
@@ -124,24 +128,23 @@ if __name__ == "__main__":
         while True:
             step += 1
             #env.render()
-            action = agent3.act(state)
+            action = agents[-1].act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            agent3.remember(state, action, reward, next_state, done)
+            agents[-1].remember(state, action, reward, next_state, done)
             state = next_state
 
             if done:
-                print("Run: {}, exploration: {}, score: {}".format(episode, agent3.epsilon, step))
+                print("Run: {}, exploration: {}, score: {}".format(episode, agents[-1].epsilon, step))
                 score_logger.add_score(step, episode)
                 break
 
-            if len(agent3.memory) > batch_size:
-                agent3.replay(batch_size)
+            if len(agents[-1].memory) > batch_size:
+                agents[-1].replay(batch_size)
 
             if step % 8 == 0:
-                agent3.set_weights()
-                agent2.set_weights()
-                agent1.set_weights()
+                for t in range(multi_step, 0):
+                    agents[t].set_weights()
 
