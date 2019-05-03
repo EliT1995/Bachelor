@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f0006d3-b321-495f-b1c3-661d62261415" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cartPole_multi.py" beforeDir="false" afterPath="$PROJECT_DIR$/cartPole_multi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_combined.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_combined.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_multi.csv" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_multi.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_multi.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_multi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newCartpole.py" beforeDir="false" afterPath="$PROJECT_DIR$/newCartpole.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_new.csv" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_new.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/solved_CartPole-v0_new.png" beforeDir="false" afterPath="$PROJECT_DIR$/solved_CartPole-v0_new.png" afterDir="false" />
     </list>
@@ -47,7 +44,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="28" />
-          <entry key="py" value="7205" />
+          <entry key="py" value="7341" />
           <entry key="script" value="19" />
           <entry key="sh" value="225" />
         </counts>
@@ -55,7 +52,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="272" />
-          <entry key="Python" value="7205" />
+          <entry key="Python" value="7341" />
         </counts>
       </usages-collector>
     </session>
@@ -65,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cartPole_target.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-102">
+            <state relative-caret-position="653">
               <caret line="101" column="43" selection-start-line="101" selection-start-column="43" selection-end-line="101" selection-end-column="43" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -77,18 +74,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="134" column="30" lean-forward="true" selection-start-line="134" selection-start-column="30" selection-end-line="134" selection-end-column="30" />
+            <state relative-caret-position="1980">
+              <caret line="132" column="48" selection-start-line="132" selection-start-column="48" selection-end-line="132" selection-end-column="48" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png">
-          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -133,6 +125,8 @@
       <find>non</find>
       <find>na</find>
       <find>nan</find>
+      <find>disc</find>
+      <find>discounted_rewards</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -159,9 +153,9 @@
         <option value="$PROJECT_DIR$/script.sh" />
         <option value="$PROJECT_DIR$/scriptnew.sh" />
         <option value="$PROJECT_DIR$/scriptnewmulti.sh" />
-        <option value="$PROJECT_DIR$/newCartpole.py" />
         <option value="$PROJECT_DIR$/StatistikLogger.py" />
         <option value="$PROJECT_DIR$/cartPole_multi.py" />
+        <option value="$PROJECT_DIR$/newCartpole.py" />
       </list>
     </option>
   </component>
@@ -215,7 +209,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.ScoreLogger">
+  <component name="RunManager" selected="Python.newCartpole">
     <configuration name="ScoreLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bachelor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -330,8 +324,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.newCartpole" />
+        <item itemvalue="Python.ScoreLogger" />
         <item itemvalue="Python.cartPole_multi" />
         <item itemvalue="Python.cartPole" />
         <item itemvalue="Python.StatistikLogger" />
@@ -378,15 +372,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/newCartpole.py</url>
-          <line>81</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
         <watch expression="discounted_rewards" language="Python" />
@@ -519,16 +504,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cartPole_target.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102">
-          <caret line="101" column="43" selection-start-line="101" selection-start-column="43" selection-end-line="101" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_multi.csv">
       <provider selected="true" editor-type-id="text-editor">
@@ -545,13 +520,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.csv" />
-    <entry file="file://$PROJECT_DIR$/StatistikLogger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cartPole_multi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -559,13 +527,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/StatistikLogger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/cartPole_target.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="653">
+          <caret line="101" column="43" selection-start-line="101" selection-start-column="43" selection-end-line="101" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="134" column="30" lean-forward="true" selection-start-line="134" selection-start-column="30" selection-end-line="134" selection-end-column="30" />
+        <state relative-caret-position="1980">
+          <caret line="132" column="48" selection-start-line="132" selection-start-column="48" selection-end-line="132" selection-end-column="48" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

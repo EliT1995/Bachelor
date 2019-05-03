@@ -9,6 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
+multi_step = 3
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -94,7 +95,7 @@ class DQNAgent:
                 targets[i] = reward[i]
 
             else:
-                targets[i] = reward[i] + self.gamma**3 * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**multi_step * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -110,29 +111,26 @@ class DQNAgent:
 
     def discount(self, timeStep):
         #Compute the gamma-discounted rewards over an episode
-
+        rewards = []
         discounted_rewards = 0
 
         for elem in self.memory:
-            if elem[3] == timeStep:
-                discounted_rewards = discounted_rewards + elem[2]
-            if elem[3] == timeStep + 1:
-                discounted_rewards = discounted_rewards + self.gamma*elem[2]
-                if elem[5] is True:
-                    return discounted_rewards
-            if elem[3] == timeStep + 2:
-                discounted_rewards = discounted_rewards + elem[2]*self.gamma**2
+            if timeStep <= elem[3] <= timeStep + (multi_step-1):
+                rewards.append(elem[2])
+
+        for t in range(0, len(rewards)):
+            discounted_rewards = rewards[t] + discounted_rewards * self.gamma
 
         return discounted_rewards
 
     def get_next_state(self, timeStep):
         for elem in self.memory:
-            if elem[3] == timeStep + 2:
+            if elem[3] == timeStep + (multi_step-1):
                 return elem[4]
 
     def get_next_state_done(self, timeStep):
         for elem in self.memory:
-            if elem[3] == timeStep + 2:
+            if elem[3] == timeStep + (multi_step-1):
                 return elem[5]
 
 
