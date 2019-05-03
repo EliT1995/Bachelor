@@ -86,6 +86,8 @@ class DQNAgent:
             next_state_done[i] = self.get_next_state_done(timeStep[i])
             reward[i] = self.discount(timeStep[i], discounted_rewards)
 
+        print("next state train after {}".format(next_state))
+
         next_Q_values = self.target_model.predict([next_state, action_mask])
 
         for i in range(batch_size):
@@ -112,7 +114,6 @@ class DQNAgent:
 
     def discount(self, timeStep, rewards):
         #Compute the gamma-discounted rewards over an episode
-        timeStep = timeStep - 1
         discounted_rewards = 0
 
         for elem in self.memory:
@@ -121,22 +122,28 @@ class DQNAgent:
             if elem[3] == timeStep + 1:
                 discounted_rewards = discounted_rewards + self.gamma*elem[2]
                 if elem[5] is True:
-                    return
+                    return discounted_rewards
             if elem[3] == timeStep + 2:
                 discounted_rewards = discounted_rewards + elem[2]*self.gamma**2
 
         return discounted_rewards
 
     def get_next_state(self, timeStep):
-        timeStep = timeStep - 1
         for elem in self.memory:
             if elem[3] == timeStep + 2:
                 return elem[4]
+            elif elem[3] == timeStep + 1:
+                return elem[4]
+            elif elem[3] == timeStep:
+                return elem[4]
 
     def get_next_state_done(self, timeStep):
-        timeStep = timeStep - 1
         for elem in self.memory:
             if elem[3] == timeStep + 2:
+                return elem[5]
+            elif elem[3] == timeStep + 1:
+                return elem[5]
+            elif elem[3] == timeStep:
                 return elem[5]
 
 
@@ -145,7 +152,7 @@ if __name__ == "__main__":
     env = gym.make(env_name)
     threshold = 195
 
-    score_logger = StatistikLogger('CartPole-v0_new', threshold)
+    score_logger = StatistikLogger('CartPole-v0_new1', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -157,7 +164,7 @@ if __name__ == "__main__":
 
     discounted_rewards = []
     next_states = []
-    timeStep = 0
+    timeStep = -1
 
     for episode in range(1000):
         state = env.reset()
