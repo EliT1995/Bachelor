@@ -6,7 +6,9 @@ from keras.models import *
 from keras.layers import *
 from keras.optimizers import *
 
-from ScoreLogger import ScoreLogger
+from StatistikLogger import StatistikLogger
+
+multiStep = 5
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -30,8 +32,8 @@ class DQNAgent:
                       optimizer=Adam(lr=self.learning_rate))
         return model
 
-    def remember(self, state, action, reward, next_state, done):
-        self.memory.append((state, action, reward, next_state, done))
+    def remember(self, state, action, reward, timeStep, next_state, done):
+        self.memory.append((state, action, reward, timeStep, next_state, done))
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -45,13 +47,17 @@ class DQNAgent:
 
         minibatch = random.sample(self.memory, batch_size)
 
-        for state, action, reward, next_state, done in minibatch:
-            target = reward
+        for state, action, reward, timeStep, next_state, done in minibatch:
+            target = -1
+
+            done1 = self.get_next_state_done(timeStep)
+            next_state = self.get_next_state(timeStep)
+
+            if done1:
+                target = self.discount(timeStep)
 
             if not done:
-                target = reward + self.gamma * np.amax(self.model.predict(next_state)[0])
-            else:
-                target = -1
+                target = reward + (self.gamma**multiStep) * np.amax(self.model.predict(next_state)[0])
 
             target_f = self.model.predict(state)
             target_f[0][action] = target
@@ -60,13 +66,59 @@ class DQNAgent:
         if self.epsilon > self.epsilon_min:
             self.epsilon *= self.epsilon_decay
 
+
+    def discount(self, timeStep):
+        #Compute the gamma-discounted rewards over an episode
+        rewards = []
+        discounted_rewards = 0
+
+        for elem in self.memory:
+            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
+                rewards.append(elem[2])
+
+        for t in range(0, len(rewards)):
+            discounted_rewards = rewards[t] + discounted_rewards * self.gamma
+
+        return discounted_rewards
+
+    def get_next_state(self, timeStep):
+        elements = []
+
+        for elem in self.memory:
+            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
+                elements.append(elem)
+
+        for t in range(0, len(elements)):
+            element = elements[t]
+            if element[5] is True:
+                return element[4]
+
+        element = elements[len(elements) - 1]
+        return element[4]
+
+    def get_next_state_done(self, timeStep):
+        elements = []
+
+        for elem in self.memory:
+            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
+                elements.append(elem)
+
+        for t in range(0, len(elements)):
+            element = elements[t]
+            if element[5] is True:
+                return element[5]
+
+        element = elements[len(elements) - 1]
+        return element[5]
+
+
 if __name__ == "__main__":
     episodes = 1000
     batch_size = 32
     target_model_change = 100
 
     env = gym.make('CartPole-v0')
-    score_logger = ScoreLogger('CartPole-v0')
+    score_logger = StatistikLogger('CartPole-v0_new', 195)
 
 
     state_size = env.observation_space.shape[0]
@@ -74,6 +126,8 @@ if __name__ == "__main__":
     agent = DQNAgent(state_size, action_size)
 
     # Iterate the game
+    timeStep = -1
+
     for episode in range(episodes):
         # reset state in the beginning of each game
         state = env.reset()
@@ -81,12 +135,13 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         for time_t in range(500):
+            timeStep += 1
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            agent.remember(state, action, reward, next_state, done)
+            agent.remember(state, action, reward, timeStep, next_state, done)
 
             state = next_state
 

@@ -117,9 +117,11 @@ class DQNAgent:
         for elem in self.memory:
             if timeStep <= elem[3] <= timeStep + (multi_step-1):
                 rewards.append(elem[2])
+                if elem[5] is True:
+                    break
 
         for t in range(0, len(rewards)):
-            discounted_rewards = rewards[t] + discounted_rewards * self.gamma
+            discounted_rewards += rewards[t] * self.gamma ** t
 
         return discounted_rewards
 
