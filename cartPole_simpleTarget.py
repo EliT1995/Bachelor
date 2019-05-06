@@ -51,13 +51,13 @@ class DQNAgent:
 
             done1 = self.get_next_state_done(timeStep)
             next_state = self.get_next_state(timeStep)
-            target = self.discount(timeStep)
+            reward = self.discount(timeStep)
 
             if done:
                 target = -1
 
             elif done1:
-                target = self.discount(timeStep)
+                target = reward
 
             else:
                 target = (reward + self.gamma**multiStep *
