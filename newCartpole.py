@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 3
+multi_step = 5
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -124,14 +124,34 @@ class DQNAgent:
         return discounted_rewards
 
     def get_next_state(self, timeStep):
+        elements = []
+
         for elem in self.memory:
-            if elem[3] == timeStep + (multi_step-1):
-                return elem[4]
+            if timeStep <= elem[3] <= timeStep + (multi_step-1):
+                elements.append(elem)
+
+        for t in range(0, len(elements)):
+            element = elements[t]
+            if element[5] is True:
+                return element[4]
+
+        element = elements[len(elements) - 1]
+        return element[4]
 
     def get_next_state_done(self, timeStep):
+        elements = []
+
         for elem in self.memory:
-            if elem[3] == timeStep + (multi_step-1):
-                return elem[5]
+            if timeStep <= elem[3] <= timeStep + (multi_step - 1):
+                elements.append(elem)
+
+        for t in range(0, len(elements)):
+            element = elements[t]
+            if element[5] is True:
+                return element[5]
+
+        element = elements[len(elements) - 1]
+        return element[5]
 
 
 if __name__ == "__main__":
