@@ -9,7 +9,8 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 5
+multi_step = 3
+
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -79,10 +80,11 @@ class DQNAgent:
 
         targets = np.zeros((batch_size,))
         next_state_done = np.zeros((batch_size,))
+        next_state_done_i = np.zeros((batch_size,))
 
         for i in range(batch_size):
             next_state[i] = self.get_next_state(timeStep[i])
-            next_state_done[i] = self.get_next_state_done(timeStep[i])
+            next_state_done[i], next_state_done_i[i] = self.get_next_state_done(timeStep[i])
             reward[i] = self.discount(timeStep[i])
 
         next_Q_values = self.target_model.predict([next_state, action_mask])
@@ -95,7 +97,7 @@ class DQNAgent:
                 targets[i] = reward[i]
 
             else:
-                targets[i] = reward[i] + self.gamma**multi_step * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**next_state_done_i[i] * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -150,10 +152,10 @@ class DQNAgent:
         for t in range(0, len(elements)):
             element = elements[t]
             if element[5] is True:
-                return element[5]
+                return element[5], t+1
 
         element = elements[len(elements) - 1]
-        return element[5]
+        return element[5], len(elements)
 
 
 if __name__ == "__main__":
