@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 1
+multi_step = 3
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -45,7 +45,11 @@ class DQNAgent:
 
         return model
 
-    def remember(self, state, action, reward, next_state, done):
+    def remember(self, experiences):
+        state = experiences[0][0]
+        action = experiences[0][1]
+        reward = self.discount(experiences)
+        next_state, done = self.get_next_state(experiences)
         self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
@@ -160,10 +164,7 @@ if __name__ == "__main__":
             previous_experiences.append((state, action, reward, next_state, done))
 
             if len(previous_experiences) >= multi_step:
-                new_state, new_action, _, _, _ = previous_experiences[0]
-                discounted_reward = agent.discount(previous_experiences)
-                discounted_next_state, discounted_next_state_done = agent.get_next_state(previous_experiences)
-                agent.remember(next_state, new_action, discounted_reward, discounted_next_state, discounted_next_state_done)
+                agent.remember(previous_experiences)
 
             state = next_state
 

@@ -42,7 +42,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="28" />
-          <entry key="py" value="8804" />
+          <entry key="py" value="8972" />
           <entry key="script" value="19" />
           <entry key="sh" value="225" />
         </counts>
@@ -50,7 +50,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="272" />
-          <entry key="Python" value="8804" />
+          <entry key="Python" value="8972" />
         </counts>
       </usages-collector>
     </session>
@@ -72,11 +72,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="167" selection-start-line="167" selection-end-line="167" />
+            <state relative-caret-position="780">
+              <caret line="52" selection-start-line="52" selection-end-line="52" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
-                <marker date="1557399430166" expanded="true" signature="4412:4415" ph="..." />
+                <marker date="1557399835853" expanded="true" signature="4557:4560" ph="..." />
               </folding>
             </state>
           </provider>
@@ -383,15 +383,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="806" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20930232" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3272472" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49964765" weight="0.26750702" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.49964765" visible="true" weight="0.33193278" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49964765" visible="true" weight="0.26750702" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49964765" weight="0.33193278" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -418,13 +417,13 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <condition expression="reward[i] == 1" language="Python" />
           <url>file://$PROJECT_DIR$/newCartpole.py</url>
-          <line>84</line>
+          <line>88</line>
           <option name="timeStamp" value="189" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/newCartpole.py</url>
-          <line>167</line>
-          <option name="timeStamp" value="207" />
+          <line>52</line>
+          <option name="timeStamp" value="208" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -665,11 +664,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
+        <state relative-caret-position="780">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
-            <marker date="1557399430166" expanded="true" signature="4412:4415" ph="..." />
+            <marker date="1557399835853" expanded="true" signature="4557:4560" ph="..." />
           </folding>
         </state>
       </provider>
