@@ -10,7 +10,6 @@ from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
 multi_step = 1
-gamma = 0.95
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -100,33 +99,31 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
+    def discount(self, experiences):
+        # Compute the gamma-discounted rewards over an episode
+        discounted_rewards = 0
+        t = 0
 
-def discount(experiences):
-    #Compute the gamma-discounted rewards over an episode
-    discounted_rewards = 0
-    t = 0
+        for state, action, reward, next_state, done in experiences:
+            discounted_rewards += reward * self.gamma ** t
+            t += 1
+            if done:
+                break
 
-    for state, action, reward, next_state, done in experiences:
-        discounted_rewards += reward * gamma ** t
-        t += 1
-        if done:
-            break
+        return discounted_rewards
 
-    return discounted_rewards
+    def get_next_state(self, experiences):
 
+        n_step_next_state = []
+        n_step_done = False
+        for state, action, reward, next_state, done in experiences:
+            n_step_next_state = next_state
+            n_step_done = done
 
-def get_next_state(experiences):
+            if done:
+                break
 
-    n_step_next_state = []
-    n_step_done = False
-    for state, action, reward, next_state, done in experiences:
-        n_step_next_state = next_state
-        n_step_done = done
-
-        if done:
-            break
-
-    return n_step_next_state, n_step_done
+        return n_step_next_state, n_step_done
 
 
 if __name__ == "__main__":
@@ -164,14 +161,14 @@ if __name__ == "__main__":
 
             if len(previous_experiences) >= multi_step:
                 new_state, new_action, _, _, _ = previous_experiences[0]
-                discounted_reward = discount(previous_experiences)
-                discounted_next_state, discounted_next_state_done = get_next_state(previous_experiences)
+                discounted_reward = agent.discount(previous_experiences)
+                discounted_next_state, discounted_next_state_done = agent.get_next_state(previous_experiences)
                 agent.remember(next_state, new_action, discounted_reward, discounted_next_state, discounted_next_state_done)
 
             state = next_state
 
             if done:
-                print("Run: {}, exploration: {}, score: {}".format(episode, agent.epsilon, step))
+                #print("Run: {}, exploration: {}, score: {}".format(episode, agent.epsilon, step))
                 score_logger.add_score(step, episode)
                 break
 
