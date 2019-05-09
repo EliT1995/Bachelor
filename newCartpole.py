@@ -9,9 +9,8 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 3
+multi_step = 1
 gamma = 0.95
-
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -23,6 +22,7 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
+        self.eli = []
         self.model = self._build_model()
         self.target_model = self._build_model()
 
@@ -46,8 +46,8 @@ class DQNAgent:
 
         return model
 
-    def remember(self, state, action, reward, timeStep, next_state, done):
-        self.memory.append((state, action, reward, timeStep, next_state, done))
+    def remember(self, state, action, reward, next_state, done):
+        self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -62,20 +62,19 @@ class DQNAgent:
         current_state_batch = np.zeros((batch_size, 4))
         next_state_batch = np.zeros((batch_size, 4))
 
-        actions, rewards, timeStep, done = [], [], [], []
+        actions, rewards, done = [], [], []
 
         for idx, val in enumerate(mini_batch):
             current_state_batch[idx] = val[0]
             actions.append(val[1])
             rewards.append(val[2])
-            timeStep.append(val[3])
-            next_state_batch[idx] = val[4]
-            done.append(val[5])
+            next_state_batch[idx] = val[3]
+            done.append(val[4])
 
-        return current_state_batch, actions, rewards, timeStep, next_state_batch, done
+        return current_state_batch, actions, rewards, next_state_batch, done
 
     def replay(self, batch_size):
-        state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
+        state, action, reward, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
         targets = np.zeros((batch_size,))
@@ -107,7 +106,7 @@ def discount(experiences):
     discounted_rewards = 0
     t = 0
 
-    for state, action, reward, timeStep, next_state, done in experiences:
+    for state, action, reward, next_state, done in experiences:
         discounted_rewards += reward * gamma ** t
         t += 1
         if done:
@@ -120,7 +119,7 @@ def get_next_state(experiences):
 
     n_step_next_state = []
     n_step_done = False
-    for state, action, reward, timeStep, next_state, done in experiences:
+    for state, action, reward, next_state, done in experiences:
         n_step_next_state = next_state
         n_step_done = done
 
@@ -145,7 +144,6 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    timeStep = -1
     previous_experiences= deque(maxlen=multi_step)
 
     for episode in range(1000):
@@ -156,20 +154,19 @@ if __name__ == "__main__":
 
         while True:
             step += 1
-            timeStep += 1
             # env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            previous_experiences.append((state, action, reward, timeStep, next_state, done))
+            previous_experiences.append((state, action, reward, next_state, done))
 
             if len(previous_experiences) >= multi_step:
-                new_state, new_action, _, _, _, _ = previous_experiences[0]
+                new_state, new_action, _, _, _ = previous_experiences[0]
                 discounted_reward = discount(previous_experiences)
                 discounted_next_state, discounted_next_state_done = get_next_state(previous_experiences)
-                agent.remember(next_state, new_action, discounted_reward, timeStep, discounted_next_state, discounted_next_state_done)
+                agent.remember(next_state, new_action, discounted_reward, discounted_next_state, discounted_next_state_done)
 
             state = next_state
 
