@@ -22,8 +22,6 @@ class StatistikLogger:
 
         if os.path.exists(self.SOLVED_PNG_PATH):
             os.remove(self.SOLVED_PNG_PATH)
-        if os.path.exists(self.SOLVED_CSV_PATH):
-            os.remove(self.SOLVED_CSV_PATH)
 
     def add_score(self, score, run):
         self.score = score

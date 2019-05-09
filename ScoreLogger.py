@@ -23,47 +23,44 @@ class ScoreLogger:
         self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_combined")
 
     def add_score(self):
-            self._save_png(input_path1=self.SOLVED_CSV_PATH1, input_path2=self.SOLVED_CSV_PATH2, input_path3=self.SOLVED_CSV_PATH3,
-                           output_path=self.SOLVED_PNG_PATH,
-                           x_label="trials",
-                           y_label="steps before solve",
-                           average_of_n_last=None,
-                           show_goal=False,
-                           show_trend=False,
-                           show_legend=True)
+        scores1 = self.get_average_scores(self.SOLVED_CSV_PATH1)
+        scores2 = self.get_average_scores(self.SOLVED_CSV_PATH2)
+        scores3 = self.get_average_scores(self.SOLVED_CSV_PATH3)
+
+        self._save_png(input_path1=scores1, input_path2=scores2,
+                       input_path3=scores3,
+                       output_path=self.SOLVED_PNG_PATH,
+                       x_label="trials",
+                       y_label="steps before solve",
+                       average_of_n_last=None,
+                       show_goal=False,
+                       show_trend=False,
+                       show_legend=True)
 
     def _save_png(self, input_path1, input_path2, input_path3, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
         x = []
         y = []
-        with open(input_path1, "r") as scores:
-            reader = csv.reader(scores)
-            data = list(reader)
-            for i in range(0, len(data)):
-                x.append(int(i))
-                y.append(int(data[i][0]))
+
+        for i in range(0, len(input_path1)):
+            x.append(i)
+            y.append(input_path1[i])
 
         plt.subplots()
         plt.plot(x, y, 'r', label="CartPole-v0")
 
         x = []
         y = []
-        with open(input_path2, "r") as scores:
-            reader = csv.reader(scores)
-            data = list(reader)
-            for i in range(0, len(data)):
-                x.append(int(i))
-                y.append(int(data[i][0]))
+        for i in range(0, len(input_path2)):
+            x.append(i)
+            y.append(input_path2[i])
 
         plt.plot(x, y, label="CartPole-v0_new")
 
         x = []
         y = []
-        with open(input_path3, "r") as scores:
-            reader = csv.reader(scores)
-            data = list(reader)
-            for i in range(0, len(data)):
-                x.append(int(i))
-                y.append(int(data[i][0]))
+        for i in range(0, len(input_path3)):
+            x.append(i)
+            y.append(input_path3[i])
 
         plt.plot(x, y, 'g', label="CartPole-v0_multi")
 
@@ -76,6 +73,21 @@ class ScoreLogger:
 
         plt.savefig(output_path, bbox_inches="tight")
         plt.close()
+
+    def get_average_scores(self, input_path):
+        scores_average = []
+        with open(input_path, "r") as scores:
+            reader = csv.reader(scores)
+            data = list(reader)
+            for j in range(1000):
+                score = []
+                for i in range(0, 10):
+                    print(j + 1000*i)
+                    score.append(int(data[j + 1000*i][0]))
+                scores_average.append(int(mean(score)))
+
+        return scores_average
+
 
 if __name__ == "__main__":
 
