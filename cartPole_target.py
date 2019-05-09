@@ -9,6 +9,7 @@ from keras.optimizers import Adam
 from keras import initializers
 from StatistikLogger import StatistikLogger
 
+
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size

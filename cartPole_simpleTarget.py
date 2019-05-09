@@ -10,7 +10,7 @@ from StatistikLogger import StatistikLogger
 
 EPISODES = 1000
 
-multiStep = 5
+multiStep = 200
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -36,8 +36,12 @@ class DQNAgent:
                       optimizer=Adam(lr=self.learning_rate))
         return model
 
-    def remember(self, state, action, reward, timeStep, next_state, done):
-        self.memory.append((state, action, reward, timeStep, next_state, done))
+    def remember(self, experiences):
+        state = experiences[0][0]
+        action = experiences[0][1]
+        reward = self.discount(experiences)
+        next_state, done = self.get_next_state(experiences)
+        self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -47,16 +51,8 @@ class DQNAgent:
 
     def replay(self, batch_size):
         minibatch = random.sample(self.memory, batch_size)
-        for state, action, reward, timeStep, next_state, done in minibatch:
-
-            done1 = self.get_next_state_done(timeStep)
-            next_state = self.get_next_state(timeStep)
-            reward = self.discount(timeStep)
-
+        for state, action, reward, next_state, done in minibatch:
             if done:
-                target = -1
-
-            elif done1:
                 target = reward
 
             else:
@@ -77,57 +73,37 @@ class DQNAgent:
             self.target_model.set_weights(target_weights)
 
 
-    def discount(self, timeStep):
+    def discount(self, experiences):
         #Compute the gamma-discounted rewards over an episode
-        rewards = []
         discounted_rewards = 0
+        t = 0
 
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
-                rewards.append(elem[2])
-                if elem[5] is True:
-                    break
-
-        for t in range(0, len(rewards)):
-            discounted_rewards += rewards[t] * self.gamma**t
+        for state, action, reward, next_state, done in experiences:
+            discounted_rewards += reward * self.gamma ** t
+            t += 1
+            if done:
+                break
 
         return discounted_rewards
 
-    def get_next_state(self, timeStep):
-        elements = []
+    def get_next_state(self, experiences):
 
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
-                elements.append(elem)
+        n_step_next_state = []
+        n_step_done = False
+        for state, action, reward, next_state, done in experiences:
+            n_step_next_state = next_state
+            n_step_done = done
 
-        for t in range(0, len(elements)):
-            element = elements[t]
-            if element[5] is True:
-                return element[4]
+            if done:
+                break
 
-        element = elements[len(elements) - 1]
-        return element[4]
-
-    def get_next_state_done(self, timeStep):
-        elements = []
-
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multiStep - 1):
-                elements.append(elem)
-
-        for t in range(0, len(elements)):
-            element = elements[t]
-            if element[5] is True:
-                return element[5]
-
-        element = elements[len(elements) - 1]
-        return element[5]
+        return n_step_next_state, n_step_done
 
 
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
-    score_logger = StatistikLogger('CartPole-v0', 195)
+    score_logger = StatistikLogger('CartPole-v0_simple', 195)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -138,25 +114,27 @@ if __name__ == "__main__":
     batch_size = 32
 
     run = 0
-    timeStep = -1
-    while True:
-        run += 1
+
+    for run in range(500):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        previous_experiences = deque(maxlen=multiStep)
 
         while True:
             step += 1
-            timeStep += 1
             # env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
-            reward = reward
             next_state = np.reshape(next_state, [1, state_size])
 
-            agent.remember(state, action, reward, timeStep, next_state, done)
+            previous_experiences.append((state, action, reward, next_state, done))
+
+            if len(previous_experiences) >= multiStep or done:
+                agent.remember(previous_experiences)
+
             state = next_state
 
             if done:

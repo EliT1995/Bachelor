@@ -11,6 +11,7 @@ from StatistikLogger import StatistikLogger
 
 multi_step = 3
 
+
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
@@ -21,7 +22,6 @@ class DQNAgent:
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
-        self.eli = []
         self.model = self._build_model()
         self.target_model = self._build_model()
 
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 
             previous_experiences.append((state, action, reward, next_state, done))
 
-            if len(previous_experiences) >= multi_step:
+            if len(previous_experiences) >= multi_step or done:
                 agent.remember(previous_experiences)
 
             state = next_state
