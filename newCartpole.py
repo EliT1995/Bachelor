@@ -10,6 +10,7 @@ from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
 multi_step = 3
+gamma = 0.95
 
 
 class DQNAgent:
@@ -77,27 +78,16 @@ class DQNAgent:
         state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
-
         targets = np.zeros((batch_size,))
-        next_state_done = np.zeros((batch_size,))
-        next_state_done_i = np.zeros((batch_size,))
-
-        for i in range(batch_size):
-            next_state[i] = self.get_next_state(timeStep[i])
-            next_state_done[i], next_state_done_i[i] = self.get_next_state_done(timeStep[i])
-            reward[i] = self.discount(timeStep[i])
 
         next_Q_values = self.target_model.predict([next_state, action_mask])
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1
-
-            elif next_state_done[i]:
                 targets[i] = reward[i]
 
             else:
-                targets[i] = reward[i] + self.gamma**next_state_done_i[i] * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**multi_step * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -111,51 +101,33 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
-    def discount(self, timeStep):
-        #Compute the gamma-discounted rewards over an episode
-        rewards = []
-        discounted_rewards = 0
 
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multi_step-1):
-                rewards.append(elem[2])
-                if elem[5] is True:
-                    break
+def discount(experiences):
+    #Compute the gamma-discounted rewards over an episode
+    discounted_rewards = 0
+    t = 0
 
-        for t in range(0, len(rewards)):
-            discounted_rewards += rewards[t] * self.gamma ** t
+    for state, action, reward, timeStep, next_state, done in experiences:
+        discounted_rewards += reward * gamma ** t
+        t += 1
+        if done:
+            break
 
-        return discounted_rewards
+    return discounted_rewards
 
-    def get_next_state(self, timeStep):
-        elements = []
 
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multi_step-1):
-                elements.append(elem)
+def get_next_state(experiences):
 
-        for t in range(0, len(elements)):
-            element = elements[t]
-            if element[5] is True:
-                return element[4]
+    n_step_next_state = []
+    n_step_done = False
+    for state, action, reward, timeStep, next_state, done in experiences:
+        n_step_next_state = next_state
+        n_step_done = done
 
-        element = elements[len(elements) - 1]
-        return element[4]
+        if done:
+            break
 
-    def get_next_state_done(self, timeStep):
-        elements = []
-
-        for elem in self.memory:
-            if timeStep <= elem[3] <= timeStep + (multi_step - 1):
-                elements.append(elem)
-
-        for t in range(0, len(elements)):
-            element = elements[t]
-            if element[5] is True:
-                return element[5], t+1
-
-        element = elements[len(elements) - 1]
-        return element[5], len(elements)
+    return n_step_next_state, n_step_done
 
 
 if __name__ == "__main__":
@@ -174,6 +146,7 @@ if __name__ == "__main__":
     batch_size = 32
 
     timeStep = -1
+    previous_experiences= deque(maxlen=multi_step)
 
     for episode in range(1000):
         state = env.reset()
@@ -190,7 +163,14 @@ if __name__ == "__main__":
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            agent.remember(state, action, reward, timeStep, next_state, done)
+            previous_experiences.append((state, action, reward, timeStep, next_state, done))
+
+            if len(previous_experiences) >= multi_step:
+                new_state, new_action, _, _, _, _ = previous_experiences[0]
+                discounted_reward = discount(previous_experiences)
+                discounted_next_state, discounted_next_state_done = get_next_state(previous_experiences)
+                agent.remember(next_state, new_action, discounted_reward, timeStep, discounted_next_state, discounted_next_state_done)
+
             state = next_state
 
             if done:

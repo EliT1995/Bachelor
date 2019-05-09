@@ -134,7 +134,8 @@ if __name__ == "__main__":
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            agents[-1].remember(state, action, reward, next_state, done)
+            for t in range(0, multi_step):
+                agents[t].remember(state, action, reward, next_state, done)
             state = next_state
 
             if done:
@@ -143,9 +144,10 @@ if __name__ == "__main__":
                 break
 
             if len(agents[-1].memory) > batch_size:
-                agents[-1].replay(batch_size)
+                for t in range(0,multi_step):
+                    agents[t].replay(batch_size)
 
             if step % 8 == 0:
-                for t in range(0,multi_step):
-                    agents[multi_step-1-t].set_weights()
+                for t in range(0, multi_step):
+                    agents[t].set_weights()
 
