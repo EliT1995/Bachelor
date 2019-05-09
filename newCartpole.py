@@ -145,13 +145,12 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    previous_experiences= deque(maxlen=multi_step)
-
     for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        previous_experiences = deque(maxlen=multi_step)
 
         while True:
             step += 1
