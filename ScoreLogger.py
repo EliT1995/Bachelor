@@ -30,8 +30,8 @@ class ScoreLogger:
         self._save_png(input_path1=scores1, input_path2=scores2,
                        input_path3=scores3,
                        output_path=self.SOLVED_PNG_PATH,
-                       x_label="trials",
-                       y_label="steps before solve",
+                       x_label="episodes",
+                       y_label="accumulated average reward",
                        average_of_n_last=None,
                        show_goal=False,
                        show_trend=False,
@@ -40,36 +40,50 @@ class ScoreLogger:
     def _save_png(self, input_path1, input_path2, input_path3, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
         x = []
         y = []
-
+        scores = deque(maxlen=50)
         for i in range(0, len(input_path1)):
+            scores.append(input_path1[i])
+            if len(scores)>=50:
+                y.append(int(mean(scores)))
+
+        for i in range(0, len(y)):
             x.append(i)
-            y.append(input_path1[i])
 
         plt.subplots()
-        plt.plot(x, y, 'r', label="CartPole-v0")
+        plt.plot(x, y, 'r', label="one-step DQN")
 
         x = []
         y = []
+        scores = deque(maxlen=50)
         for i in range(0, len(input_path2)):
-            x.append(i)
-            y.append(input_path2[i])
+            scores.append(input_path2[i])
+            if len(scores) >= 50:
+                y.append(int(mean(scores)))
 
-        plt.plot(x, y, label="CartPole-v0_new")
+        for i in range(0, len(y)):
+            x.append(i)
+
+        plt.plot(x, y, label="three-step DQN")
 
         x = []
         y = []
+        scores = deque(maxlen=50)
         for i in range(0, len(input_path3)):
-            x.append(i)
-            y.append(input_path3[i])
+            scores.append(input_path3[i])
+            if len(scores) >= 50:
+                y.append(int(mean(scores)))
 
-        plt.plot(x, y, 'g', label="CartPole-v0_multi")
+        for i in range(0, len(y)):
+            x.append(i)
+
+        plt.plot(x, y, 'g', label="three one-step DQN")
 
         plt.title("CartPole")
         plt.xlabel(x_label)
         plt.ylabel(y_label)
 
         if show_legend:
-            plt.legend(loc="upper left")
+            plt.legend(loc="upper right")
 
         plt.savefig(output_path, bbox_inches="tight")
         plt.close()
@@ -81,8 +95,7 @@ class ScoreLogger:
             data = list(reader)
             for j in range(1000):
                 score = []
-                for i in range(0, 10):
-                    print(j + 1000*i)
+                for i in range(0, 5):
                     score.append(int(data[j + 1000*i][0]))
                 scores_average.append(int(mean(score)))
 
