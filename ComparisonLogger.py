@@ -17,34 +17,61 @@ class ComparisonLogger:
             writer.writerow([score])
 
     def get_best_score(self):
-        SOLVED_CSV_PATH_Final = "./solved_{}.csv".format(self.name)
+        SOLVED_CSV_PATH_Final = "./{}".format(self.name)
 
-        final = []
-
+        final_max = []
         mean_score_final = 0
 
-        SOLVED_CSV_PATH_i = "./scores_{}/solved_{}.csv".format(self.name, self.name + str(0))
+        SOLVED_CSV_PATH_i = "./{}".format(self.name)
 
         with open(SOLVED_CSV_PATH_i, "r") as scores:
             reader = csv.reader(scores)
             data = list(reader)
-            for j in range(0, len(data)):
-                final.append(int(data[j][0]))
+            for j in range(0, 1000):
+                final_max.append(int(data[j][0]))
                 mean_score_final += int(data[j][0])
 
-        for i in range(1, 100):
-            mean_score = 0
-            final_scores = []
-            SOLVED_CSV_PATH_i = "./scores_{}/solved_{}.csv".format(self.name, self.name + str(i))
-            with open(SOLVED_CSV_PATH_i, "r") as scores:
-                reader = csv.reader(scores)
-                data = list(reader)
-                for j in range(0, len(data)):
-                    final_scores.append(int(data[j][0]))
-                    mean_score += int(data[j][0])
+        with open(SOLVED_CSV_PATH_i, "r") as scores:
+            reader = csv.reader(scores)
+            data = list(reader)
+            for j in range(1,10):
+                mean_score = 0
+                final_scores = []
+                for i in range(1000):
+                    final_scores.append(int(data[i + 1000*j][0]))
+                    mean_score += int(data[i + 1000*j][0])
                 if mean_score > mean_score_final:
                     mean_score_final = mean_score
-                    final = final_scores
+                    final_max = final_scores
 
-        for i in range(len(final)):
-            self._save_csv(SOLVED_CSV_PATH_Final, int(final[i]))
+        return final_max
+
+    def get_worst_score(self):
+        SOLVED_CSV_PATH_Final = "./{}".format(self.name)
+
+        final_min = []
+        mean_score_final = 0
+
+        SOLVED_CSV_PATH_i = "./{}".format(self.name)
+
+        with open(SOLVED_CSV_PATH_i, "r") as scores:
+            reader = csv.reader(scores)
+            data = list(reader)
+            for j in range(0, 1000):
+                final_min.append(int(data[j][0]))
+                mean_score_final += int(data[j][0])
+
+        with open(SOLVED_CSV_PATH_i, "r") as scores:
+            reader = csv.reader(scores)
+            data = list(reader)
+            for j in range(1,10):
+                mean_score = 0
+                final_scores = []
+                for i in range(1000):
+                    final_scores.append(int(data[i + 1000*j][0]))
+                    mean_score += int(data[i + 1000*j][0])
+                if mean_score < mean_score_final:
+                    mean_score_final = mean_score
+                    final_min = final_scores
+
+        return final_min

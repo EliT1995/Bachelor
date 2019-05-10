@@ -4,6 +4,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import deque
 import csv
+from ComparisonLogger import ComparisonLogger
 
 
 def get_average_scores(input_path):
@@ -13,7 +14,7 @@ def get_average_scores(input_path):
         data = list(reader)
         for j in range(1000):
             score = []
-            for i in range(0, 8):
+            for i in range(0, 10):
                 score.append(int(data[j + 1000*i][0]))
             scores_average.append(int(mean(score)))
 
@@ -48,42 +49,60 @@ class ScoreLogger:
         x = []
         y = []
         scores = deque(maxlen=50)
+        logger = ComparisonLogger(self.SOLVED_CSV_PATH1)
+        low_CI = logger.get_worst_score()
+        upper_CI = logger.get_best_score()
         for i in range(0, len(input_path1)):
             scores.append(input_path1[i])
-            if len(scores)>=50:
-                y.append(int(mean(scores)))
+            y.append(int(input_path1[i]))
+            #if len(scores)>=50:
+                #y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.subplots()
-        plt.plot(x, y, 'r', label="one-step DQN")
+        plt.plot(x, y, lw=2, color='#539caf', alpha=1)
+        plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4, label="one-step DQN")
+
+        #plt.plot(x, y, 'r', label="one-step DQN")
 
         x = []
         y = []
         scores = deque(maxlen=50)
+        logger = ComparisonLogger(self.SOLVED_CSV_PATH2)
+        low_CI = logger.get_worst_score()
+        upper_CI = logger.get_best_score()
         for i in range(0, len(input_path2)):
             scores.append(input_path2[i])
-            if len(scores) >= 50:
-                y.append(int(mean(scores)))
+            y.append(int(input_path2[i]))
+            #if len(scores) >= 50:
+                #y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, label="three-step DQN")
+        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1)
+        plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4, label="three-step DQN")
+        #plt.plot(x, y, label="three-step DQN")
 
         x = []
         y = []
         scores = deque(maxlen=50)
+        logger = ComparisonLogger(self.SOLVED_CSV_PATH3)
+        low_CI = logger.get_worst_score()
+        upper_CI = logger.get_best_score()
         for i in range(0, len(input_path3)):
             scores.append(input_path3[i])
-            if len(scores) >= 50:
-                y.append(int(mean(scores)))
+            y.append(int(input_path3[i]))
+            #if len(scores) >= 50:
+                #y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, 'g', label="three one-step DQN")
+        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1)
+        plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4, label="three one-step DQN")
+        #plt.plot(x, y, 'g', label="three one-step DQN")
 
         plt.title("CartPole")
         plt.xlabel(x_label)
