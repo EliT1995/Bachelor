@@ -61,8 +61,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#539caf', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4, label="one-step DQN")
+        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1)
+        plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4, label="one-step DQN")
 
         #plt.plot(x, y, 'r', label="one-step DQN")
 
@@ -81,8 +81,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4, label="three-step DQN")
+        plt.plot(x, y, lw=2, color='#539caf', alpha=1)
+        plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4, label="three-step DQN")
         #plt.plot(x, y, label="three-step DQN")
 
         x = []
