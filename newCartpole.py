@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 200
+multi_step = 2
 
 
 class DQNAgent:
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     env = gym.make(env_name)
     threshold = 195
 
-    score_logger = StatistikLogger('CartPole-v0_new', threshold)
+    score_logger = StatistikLogger('CartPole-v0_2step', threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -178,9 +178,10 @@ if __name__ == "__main__":
 
             state = next_state
 
-            if done:
+            if done and len(previous_experiences) < multi_step:
                 agent.mc_remember(previous_experiences)
-                #print("Run: {}, exploration: {}, score: {}".format(episode, agent.epsilon, step))
+
+            if done:
                 score_logger.add_score(step, episode)
                 break
 

@@ -3,15 +3,22 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from collections import deque
-import os
 import csv
-import numpy as np
-import pandas
 
-#SCORES_CSV_PATH = "./scores.csv"
-#SCORES_PNG_PATH = "./scores.png"
-#SOLVED_CSV_PATH = "./solved.csv"
-#SOLVED_PNG_PATH = "./solved.png"
+
+def get_average_scores(input_path):
+    scores_average = []
+    with open(input_path, "r") as scores:
+        reader = csv.reader(scores)
+        data = list(reader)
+        for j in range(1000):
+            score = []
+            for i in range(0, 8):
+                score.append(int(data[j + 1000*i][0]))
+            scores_average.append(int(mean(score)))
+
+    return scores_average
+
 
 class ScoreLogger:
 
@@ -23,9 +30,9 @@ class ScoreLogger:
         self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_combined")
 
     def add_score(self):
-        scores1 = self.get_average_scores(self.SOLVED_CSV_PATH1)
-        scores2 = self.get_average_scores(self.SOLVED_CSV_PATH2)
-        scores3 = self.get_average_scores(self.SOLVED_CSV_PATH3)
+        scores1 = get_average_scores(self.SOLVED_CSV_PATH1)
+        scores2 = get_average_scores(self.SOLVED_CSV_PATH2)
+        scores3 = get_average_scores(self.SOLVED_CSV_PATH3)
 
         self._save_png(input_path1=scores1, input_path2=scores2,
                        input_path3=scores3,
@@ -83,23 +90,10 @@ class ScoreLogger:
         plt.ylabel(y_label)
 
         if show_legend:
-            plt.legend(loc="upper right")
+            plt.legend(loc="lower right")
 
         plt.savefig(output_path, bbox_inches="tight")
         plt.close()
-
-    def get_average_scores(self, input_path):
-        scores_average = []
-        with open(input_path, "r") as scores:
-            reader = csv.reader(scores)
-            data = list(reader)
-            for j in range(1000):
-                score = []
-                for i in range(0, 5):
-                    score.append(int(data[j + 1000*i][0]))
-                scores_average.append(int(mean(score)))
-
-        return scores_average
 
 
 if __name__ == "__main__":
