@@ -53,14 +53,17 @@ class DQNAgent:
         self.memory.append((state, action, reward, next_state, done))
 
     def mc_remember(self, experiences):
-        adjusted_experiences = experiences.copy()
+        adjusted_experiences = []
+        for index in range(len(experiences)):
+            adjusted_experiences.append(experiences[index])
+
         for index in range(len(experiences)):
             state = experiences[index][0]
             action = experiences[index][1]
             reward = self.discount(adjusted_experiences)
             next_state, done = self.get_next_state(adjusted_experiences)
             self.memory.append((state, action, reward, next_state, done))
-            adjusted_experiences.popleft()
+            adjusted_experiences.pop(0)
 
 
     def act(self, state):
