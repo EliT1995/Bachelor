@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 200
+multi_step = 5
 
 
 class DQNAgent:
@@ -54,10 +54,11 @@ class DQNAgent:
 
     def mc_remember(self, experiences, timeStep):
         adjusted_experiences = []
-        for index in range(timeStep, len(experiences)):
+        for index in range(1, len(experiences)):
+            print("ELIIII")
             adjusted_experiences.append(experiences[index])
 
-        for index in range(len(experiences) - timeStep):
+        for index in range(1, len(experiences)):
             state = experiences[index][0]
             action = experiences[index][1]
             reward = self.discount(adjusted_experiences)
