@@ -43,7 +43,7 @@
         <counts>
           <entry key="csv" value="9" />
           <entry key="dummy" value="28" />
-          <entry key="py" value="11563" />
+          <entry key="py" value="11607" />
           <entry key="script" value="19" />
           <entry key="sh" value="324" />
         </counts>
@@ -51,7 +51,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="380" />
-          <entry key="Python" value="11563" />
+          <entry key="Python" value="11607" />
         </counts>
       </usages-collector>
     </session>
@@ -61,8 +61,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="66" selection-start-line="66" selection-end-line="66" />
+            <state relative-caret-position="289">
+              <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -393,7 +393,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/newCartpole.py</url>
-          <line>66</line>
+          <line>69</line>
           <option name="timeStamp" value="352" />
         </line-breakpoint>
       </breakpoints>
@@ -657,8 +657,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
+        <state relative-caret-position="289">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
