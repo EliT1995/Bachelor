@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 3
+multi_step = 200
 
 
 class DQNAgent:
@@ -52,12 +52,12 @@ class DQNAgent:
         next_state, done = self.get_next_state(experiences)
         self.memory.append((state, action, reward, next_state, done))
 
-    def mc_remember(self, experiences):
+    def mc_remember(self, experiences, timeStep):
         adjusted_experiences = []
-        for index in range(len(experiences)):
+        for index in range(timeStep, len(experiences)):
             adjusted_experiences.append(experiences[index])
 
-        for index in range(len(experiences)):
+        for index in range(len(experiences) - timeStep):
             state = experiences[index][0]
             action = experiences[index][1]
             reward = self.discount(adjusted_experiences)
@@ -164,6 +164,7 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        timeStep = 0
         previous_experiences = deque(maxlen=multi_step)
 
         while True:
@@ -177,12 +178,13 @@ if __name__ == "__main__":
             previous_experiences.append((state, action, reward, next_state, done))
 
             if len(previous_experiences) >= multi_step:
+                timeStep += 1
                 agent.remember(previous_experiences)
 
             state = next_state
 
-            if done and len(previous_experiences) < multi_step:
-                agent.mc_remember(previous_experiences)
+            if done:
+                agent.mc_remember(previous_experiences, timeStep)
 
             if done:
                 score_logger.add_score(step, episode)
