@@ -52,23 +52,22 @@ class DQNAgent:
         next_state, done = self.get_next_state(experiences)
         self.memory.append((state, action, reward, next_state, done))
 
-    def mc_remember(self, experiences, timeStep):
+    def mc_remember(self, experiences, is_seen):
         adjusted_experiences = []
-        if timeStep is not 0:
-            for index in range(1, len(experiences)):
-                adjusted_experiences.append(experiences[index])
-        else:
-            for index in range(0, len(experiences)):
-                adjusted_experiences.append(experiences[index])
+        starting_index = 0
+        if is_seen:
+            starting_index = 1
 
-        for index in range(1, len(experiences)):
+        for index in range(starting_index, len(experiences)):
+            adjusted_experiences.append(experiences[index])
+
+        for index in range(starting_index, len(experiences)):
             state = experiences[index][0]
             action = experiences[index][1]
             reward = self.discount(adjusted_experiences)
             next_state, done = self.get_next_state(adjusted_experiences)
             self.memory.append((state, action, reward, next_state, done))
             adjusted_experiences.pop(0)
-
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -168,7 +167,7 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
-        timeStep = 0
+        is_seen = False
         previous_experiences = deque(maxlen=multi_step)
 
         while True:
@@ -182,15 +181,13 @@ if __name__ == "__main__":
             previous_experiences.append((state, action, reward, next_state, done))
 
             if len(previous_experiences) >= multi_step:
-                timeStep += 1
+                is_seen = True
                 agent.remember(previous_experiences)
 
             state = next_state
 
             if done:
-                agent.mc_remember(previous_experiences, timeStep)
-
-            if done:
+                agent.mc_remember(previous_experiences, is_seen)
                 score_logger.add_score(step, episode)
                 break
 

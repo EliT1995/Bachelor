@@ -26,7 +26,7 @@
         <counts>
           <entry key="csv" value="59" />
           <entry key="h5" value="2" />
-          <entry key="png" value="149" />
+          <entry key="png" value="151" />
           <entry key="py" value="61" />
           <entry key="script" value="1" />
           <entry key="sh" value="29" />
@@ -34,7 +34,7 @@
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Image" value="149" />
+          <entry key="Image" value="151" />
           <entry key="PLAIN_TEXT" value="91" />
           <entry key="Python" value="61" />
         </counts>
@@ -43,7 +43,7 @@
         <counts>
           <entry key="csv" value="9" />
           <entry key="dummy" value="28" />
-          <entry key="py" value="11607" />
+          <entry key="py" value="11706" />
           <entry key="script" value="19" />
           <entry key="sh" value="324" />
         </counts>
@@ -51,7 +51,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="380" />
-          <entry key="Python" value="11607" />
+          <entry key="Python" value="11706" />
         </counts>
       </usages-collector>
     </session>
@@ -61,13 +61,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="285">
               <caret line="69" selection-start-line="69" selection-end-line="69" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_1005001000.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -346,8 +351,8 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3272472" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.2622721" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" visible="true" weight="0.46563816" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.2917251" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" visible="true" weight="0.30014026" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -394,7 +399,17 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/newCartpole.py</url>
           <line>69</line>
-          <option name="timeStamp" value="352" />
+          <option name="timeStamp" value="355" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/newCartpole.py</url>
+          <line>184</line>
+          <option name="timeStamp" value="357" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/newCartpole.py</url>
+          <line>189</line>
+          <option name="timeStamp" value="358" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -413,6 +428,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>is_seen is True</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>len(adjusted_experiences) &lt; 10</expression-string>
         <language-id>Python</language-id>
@@ -645,9 +665,6 @@
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_2005001000.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_1005001000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-149391">
@@ -655,9 +672,12 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_1005001000.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
+        <state relative-caret-position="285">
           <caret line="69" selection-start-line="69" selection-end-line="69" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
