@@ -33,6 +33,7 @@ class StatistikLogger:
 
         solve_score = int(mean_score)
         self._save_csv(self.SOLVED_CSV_PATH, solve_score)
+        self._save_png(self.SOLVED_CSV_PATH, self.SOLVED_PNG_PATH, "episodes", "accumulated average reward", None, True, True, False)
 
         if mean_score >= self.AVERAGE_SCORE_TO_SOLVE and len(self.scores) >= CONSECUTIVE_RUNS_TO_SOLVE:
             print("Solved in {} runs {} total runs".format(solve_score, run))
