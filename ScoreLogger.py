@@ -30,9 +30,9 @@ class ScoreLogger:
 
         self.SOLVED_CSV_PATH1 = "./solved_{}.csv".format("CartPole-v0")
         self.SOLVED_CSV_PATH2 = "./solved_{}.csv".format("CartPole-v0_2step")
-        self.SOLVED_CSV_PATH3 = "./solved_{}.csv".format("CartPole-v0_new")
-        self.SOLVED_CSV_PATH4 = "./solved_{}.csv".format("CartPole-v0_10step")
-        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_12310")
+        self.SOLVED_CSV_PATH3 = "./solved_{}.csv".format("CartPole-v0_3step")
+        self.SOLVED_CSV_PATH4 = "./solved_{}.csv".format("CartPole-v0_5step")
+        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_1235")
 
     def add_score(self):
         self._save_png(input_path1=self.SOLVED_CSV_PATH1, input_path2=self.SOLVED_CSV_PATH2,
@@ -69,8 +69,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4, label="one-step DQN")
+        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1, label="one-step DQN")
+        #plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)
 
         #plt.plot(x, y, 'r', label="one-step DQN")
 
@@ -92,8 +92,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#539caf', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4, label="two-step DQN")
+        plt.plot(x, y, lw=2, color='#539caf', alpha=1, label="two-step DQN")
+        #plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4)
         #plt.plot(x, y, label="three-step DQN")
 
         x = []
@@ -114,8 +114,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4, label="three-step DQN")
+        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1, label="three-step DQN")
+        #plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4, label="three-step DQN")
         #plt.plot(x, y, 'g', label="three one-step DQN")
 
         x = []
@@ -136,8 +136,8 @@ class ScoreLogger:
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#db15d4', alpha=1)
-        plt.fill_between(x, low_CI, upper_CI, color='#db15d4', alpha=0.4, label="ten-step DQN")
+        plt.plot(x, y, lw=2, color='#db15d4', alpha=1, label="five-step DQN")
+        #plt.fill_between(x, low_CI, upper_CI, color='#db15d4', alpha=0.4)
 
         plt.title("CartPole")
         plt.xlabel(x_label)
