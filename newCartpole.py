@@ -164,7 +164,6 @@ if __name__ == "__main__":
             previous_experiences.append((state, action, reward, next_state, done))
 
             if len(previous_experiences) >= multi_step:
-                is_seen = True
                 agent.remember(previous_experiences)
                 previous_experiences = previous_experiences[1:]
 
