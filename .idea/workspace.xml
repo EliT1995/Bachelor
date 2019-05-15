@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2f0006d3-b321-495f-b1c3-661d62261415" name="Default Changelist" comment="" />
+    <list default="true" id="2f0006d3-b321-495f-b1c3-661d62261415" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/cartPole_multi.py" beforeDir="false" afterPath="$PROJECT_DIR$/cartPole_multi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cartPole_target.py" beforeDir="false" afterPath="$PROJECT_DIR$/cartPole_target.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newCartpole.py" beforeDir="false" afterPath="$PROJECT_DIR$/newCartpole.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +29,7 @@
           <entry key="csv" value="62" />
           <entry key="h5" value="2" />
           <entry key="png" value="163" />
-          <entry key="py" value="65" />
+          <entry key="py" value="68" />
           <entry key="script" value="1" />
           <entry key="sh" value="29" />
         </counts>
@@ -34,14 +38,14 @@
         <counts>
           <entry key="Image" value="163" />
           <entry key="PLAIN_TEXT" value="94" />
-          <entry key="Python" value="65" />
+          <entry key="Python" value="68" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="csv" value="9" />
           <entry key="dummy" value="28" />
-          <entry key="py" value="11947" />
+          <entry key="py" value="11970" />
           <entry key="script" value="19" />
           <entry key="sh" value="324" />
         </counts>
@@ -49,18 +53,18 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="380" />
-          <entry key="Python" value="11947" />
+          <entry key="Python" value="11970" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/newCartpole.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="181" selection-start-line="181" selection-end-line="181" />
+            <state relative-caret-position="157">
+              <caret line="65" column="66" selection-start-line="65" selection-start-column="66" selection-end-line="65" selection-end-column="66" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -71,8 +75,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ScoreLogger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="173">
-              <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
+            <state relative-caret-position="248">
+              <caret line="78" column="12" lean-forward="true" selection-start-line="78" selection-start-column="12" selection-end-line="79" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lunarLander.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1634">
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,8 +104,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cartPole_target.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2025">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
+            <state relative-caret-position="342">
+              <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#13#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cartPole_multi.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="59" column="66" selection-start-line="59" selection-start-column="66" selection-end-line="59" selection-end-column="66" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cartPole_noTarget.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="368">
+              <caret line="149" column="55" lean-forward="true" selection-start-line="149" selection-start-column="55" selection-end-line="149" selection-end-column="55" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -143,9 +179,7 @@
         <option value="$PROJECT_DIR$/hello.py" />
         <option value="$PROJECT_DIR$/CombineLogger.py" />
         <option value="$PROJECT_DIR$/solved_CartPole-v0.csv" />
-        <option value="$PROJECT_DIR$/cartPole_multi.py" />
         <option value="$PROJECT_DIR$/script.sh" />
-        <option value="$PROJECT_DIR$/cartPole_target.py" />
         <option value="$PROJECT_DIR$/solved_CartPole-v0_multi.csv" />
         <option value="$PROJECT_DIR$/scriptnew.sh" />
         <option value="$PROJECT_DIR$/scriptnewmulti.sh" />
@@ -156,13 +190,15 @@
         <option value="$PROJECT_DIR$/ScoreLogger.py" />
         <option value="$PROJECT_DIR$/StatistikLogger.py" />
         <option value="$PROJECT_DIR$/newCartpole.py" />
+        <option value="$PROJECT_DIR$/cartPole_target.py" />
+        <option value="$PROJECT_DIR$/cartPole_multi.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1440" />
-    <option name="height" value="804" />
+    <option name="width" value="1346" />
+    <option name="height" value="806" />
   </component>
   <component name="ProjectView">
     <navigator currentView="Scope" currentSubView="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope" proportions="" version="1">
@@ -346,16 +382,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="806" extended-state="6" />
+    <frame x="0" y="23" width="1346" height="806" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20930232" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22415094" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3272472" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.4439776" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" weight="0.4929972" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" visible="true" weight="0.21428572" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" weight="0.3557423" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -383,11 +419,6 @@
           <url>file://$PROJECT_DIR$/cartPole_simpleTarget.py</url>
           <line>44</line>
           <option name="timeStamp" value="224" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/newCartpole.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="408" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -471,7 +502,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/script" />
     <entry file="file://$PROJECT_DIR$/hello.py" />
     <entry file="file://$PROJECT_DIR$/acrobot.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -516,23 +546,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/solved_MountainCar-v0_new.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.png" />
-    <entry file="file://$PROJECT_DIR$/cartPole_target.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2025">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cartPole_multi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scriptnew.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -564,16 +577,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_combined.png" />
-    <entry file="file://$PROJECT_DIR$/cartPole_noTarget.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="149" column="55" lean-forward="true" selection-start-line="149" selection-start-column="55" selection-end-line="149" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_2005001000.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_1005001000.png" />
     <entry file="file://$PROJECT_DIR$/cartPole_simpleTarget.py">
@@ -606,13 +609,6 @@
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_251020.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_23510.png" />
     <entry file="file://$PROJECT_DIR$/solved_CartPole-v0_new.csv" />
-    <entry file="file://$PROJECT_DIR$/ScoreLogger.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="28" column="23" lean-forward="true" selection-start-line="28" selection-start-column="23" selection-end-line="28" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/StatistikLogger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
@@ -620,10 +616,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lunarLander.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1634">
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ScoreLogger.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="78" column="12" lean-forward="true" selection-start-line="78" selection-start-column="12" selection-end-line="79" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/newCartpole.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="181" selection-start-line="181" selection-end-line="181" />
+        <state relative-caret-position="157">
+          <caret line="65" column="66" selection-start-line="65" selection-start-column="66" selection-end-line="65" selection-end-column="66" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cartPole_target.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="60" column="43" lean-forward="true" selection-start-line="60" selection-start-column="43" selection-end-line="60" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cartPole_multi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="59" column="66" selection-start-line="59" selection-start-column="66" selection-end-line="59" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cartPole_noTarget.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="149" column="55" lean-forward="true" selection-start-line="149" selection-start-column="55" selection-end-line="149" selection-end-column="55" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

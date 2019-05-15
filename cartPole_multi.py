@@ -56,8 +56,8 @@ class DQNAgent:
     def get_sample_random_batch_from_replay_memory(self):
         mini_batch = random.sample(self.memory, batch_size)
 
-        current_state_batch = np.zeros((batch_size, 4))
-        next_state_batch = np.zeros((batch_size, 4))
+        current_state_batch = np.zeros((batch_size, self.state_size))
+        next_state_batch = np.zeros((batch_size, self.state_size))
 
         actions, rewards, dead = [], [], []
 
