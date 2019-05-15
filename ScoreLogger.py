@@ -16,7 +16,7 @@ def get_average_scores(input_path):
         data = list(reader)
         for j in range(1000):
             score = []
-            for i in range(0, 10):
+            for i in range(0, 5):
                 score.append(int(data[j + 1000*i][0]))
             scores_stdev.append(score)
             scores_average.append(int(mean(score)))
@@ -28,11 +28,11 @@ class ScoreLogger:
 
     def __init__(self):
 
-        self.SOLVED_CSV_PATH1 = "./solved_{}.csv".format("CartPole-v0")
+        self.SOLVED_CSV_PATH1 = "./solved_{}.csv".format("CartPole-v0_10step")
         self.SOLVED_CSV_PATH2 = "./solved_{}.csv".format("CartPole-v0_2step")
         self.SOLVED_CSV_PATH3 = "./solved_{}.csv".format("CartPole-v0_3step")
         self.SOLVED_CSV_PATH4 = "./solved_{}.csv".format("CartPole-v0_5step")
-        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_1235")
+        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_23510")
 
     def add_score(self):
         self._save_png(input_path1=self.SOLVED_CSV_PATH1, input_path2=self.SOLVED_CSV_PATH2,
@@ -58,18 +58,13 @@ class ScoreLogger:
         upper_CI = []
         for i in range(0, len(scores1)):
             scores.append(scores1[i])
-            y.append(int(scores1[i]))
-
-        for i in range(len(scores1_stdev)):
-            scores_np = np.array(scores1_stdev[i])
-            stdev = np.std(scores_np)
-            low_CI.append(int(y[i] - stdev))
-            upper_CI.append(int(y[i] + stdev))
+            if len(scores) == 50:
+                y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1, label="one-step DQN")
+        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1, label="10-step DQN")
         #plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)
 
         #plt.plot(x, y, 'r', label="one-step DQN")
@@ -81,18 +76,13 @@ class ScoreLogger:
         upper_CI = []
         for i in range(0, len(scores2)):
             scores.append(scores2[i])
-            y.append(int(scores2[i]))
-
-        for i in range(len(scores2_stdev)):
-            scores_np = np.array(scores2_stdev[i])
-            stdev = np.std(scores_np)
-            low_CI.append(int(y[i] - stdev))
-            upper_CI.append(int(y[i] + stdev))
+            if len(scores) == 50:
+                y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#539caf', alpha=1, label="two-step DQN")
+        plt.plot(x, y, lw=2, color='#539caf', alpha=1, label="2-step DQN")
         #plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4)
         #plt.plot(x, y, label="three-step DQN")
 
@@ -103,19 +93,14 @@ class ScoreLogger:
         upper_CI = []
         for i in range(0, len(scores3)):
             scores.append(scores3[i])
-            y.append(int(scores3[i]))
-
-        for i in range(len(scores3_stdev)):
-            scores_np = np.array(scores3_stdev[i])
-            stdev = np.std(scores_np)
-            low_CI.append(int(y[i] - stdev))
-            upper_CI.append(int(y[i] + stdev))
+            if len(scores) == 50:
+                y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1, label="three-step DQN")
-        #plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4, label="three-step DQN")
+        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1, label="3-step DQN")
+        #plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4)
         #plt.plot(x, y, 'g', label="three one-step DQN")
 
         x = []
@@ -125,18 +110,13 @@ class ScoreLogger:
         upper_CI = []
         for i in range(0, len(scores4)):
             scores.append(scores4[i])
-            y.append(int(scores4[i]))
-
-        for i in range(len(scores4_stdev)):
-            scores_np = np.array(scores4_stdev[i])
-            stdev = np.std(scores_np)
-            low_CI.append(int(y[i] - stdev))
-            upper_CI.append(int(y[i] + stdev))
+            if len(scores) == 50:
+                y.append(int(mean(scores)))
 
         for i in range(0, len(y)):
             x.append(i)
 
-        plt.plot(x, y, lw=2, color='#db15d4', alpha=1, label="five-step DQN")
+        plt.plot(x, y, lw=2, color='#db15d4', alpha=1, label="5-step DQN")
         #plt.fill_between(x, low_CI, upper_CI, color='#db15d4', alpha=0.4)
 
         plt.title("CartPole")

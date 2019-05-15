@@ -28,8 +28,8 @@ class StatistikLogger:
         self.run = run
 
         self.scores.append(score)
-        mean_score = round(mean(self.scores))
-        print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), mean_score, max(self.scores)))
+        mean_score = mean(self.scores)
+        print("Run: {}, Step: {}, Score: (min: {}, avg: {}, max: {})".format(self.run, self.score, min(self.scores), int(mean_score), max(self.scores)))
 
         solve_score = int(mean_score)
         self._save_csv(self.SOLVED_CSV_PATH, solve_score)
