@@ -5,7 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import deque
 import csv
-from ComparisonLogger import ComparisonLogger
 
 
 def get_average_scores(input_path):
@@ -16,7 +15,7 @@ def get_average_scores(input_path):
         data = list(reader)
         for j in range(1000):
             score = []
-            for i in range(0, 5):
+            for i in range(0, 10):
                 score.append(int(data[j + 1000*i][0]))
             scores_stdev.append(score)
             scores_average.append(int(mean(score)))
@@ -28,16 +27,22 @@ class ScoreLogger:
 
     def __init__(self):
 
-        self.SOLVED_CSV_PATH1 = "./solved_{}.csv".format("CartPole-v0_10step")
-        self.SOLVED_CSV_PATH2 = "./solved_{}.csv".format("CartPole-v0_2step")
-        self.SOLVED_CSV_PATH3 = "./solved_{}.csv".format("CartPole-v0_3step")
-        self.SOLVED_CSV_PATH4 = "./solved_{}.csv".format("CartPole-v0_5step")
-        self.SOLVED_PNG_PATH = "./solved_{}.png".format("CartPole-v0_23510")
+        self.solved_csv_paths = []
+
+        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0"))
+        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v02"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v03"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v05"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v010"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v020"))
+        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v050"))
+        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0100"))
+        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0200"))
+        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0500"))
+        self.solved_png_path = "./solved_{}.png".format("CartPole-1351020")
 
     def add_score(self):
-        self._save_png(input_path1=self.SOLVED_CSV_PATH1, input_path2=self.SOLVED_CSV_PATH2,
-                       input_path3=self.SOLVED_CSV_PATH3, input_path4=self.SOLVED_CSV_PATH4,
-                       output_path=self.SOLVED_PNG_PATH,
+        self._save_png(input_path=self.solved_csv_paths, output_path = self.solved_png_path,
                        x_label="episodes",
                        y_label="accumulated average reward",
                        average_of_n_last=None,
@@ -45,79 +50,32 @@ class ScoreLogger:
                        show_trend=False,
                        show_legend=True)
 
-    def _save_png(self, input_path1, input_path2, input_path3, input_path4, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
-        scores1, scores1_stdev = get_average_scores(self.SOLVED_CSV_PATH1)
-        scores2, scores2_stdev = get_average_scores(self.SOLVED_CSV_PATH2)
-        scores3, scores3_stdev = get_average_scores(self.SOLVED_CSV_PATH3)
-        scores4, scores4_stdev = get_average_scores(self.SOLVED_CSV_PATH4)
+    def _save_png(self, input_path, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
 
-        x = []
-        y = []
-        scores = deque(maxlen=50)
-        low_CI = []
-        upper_CI = []
-        for i in range(0, len(scores1)):
-            scores.append(scores1[i])
-            if len(scores) == 50:
-                y.append(int(mean(scores)))
+        colors = ["#ed9b90", "#4286f4", "#f2593e", "#f1bb3e", "#d5ed38", "#5e2a47", "#27dd82", "#666317", "#5a42e5", "#f442a4"]
+        for i in range(len(input_path)):
+            scores, scores_stdev = get_average_scores(input_path[i])
+            x = []
+            y = []
+            scores_mean = deque(maxlen=100)
+            low_CI = []
+            upper_CI = []
+            for j in range(0, len(scores)):
+                scores_mean.append(scores[j])
+                if j % 100 == 0:
+                    y.append(int(mean(scores_mean)))
 
-        for i in range(0, len(y)):
-            x.append(i)
+            y = y[1:]
 
-        plt.plot(x, y, lw=2, color='#ed9b90', alpha=1, label="10-step DQN")
-        #plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)
+            eli = 0
+            for j in range(0, len(y)):
+                eli += 100
+                x.append(eli)
 
-        #plt.plot(x, y, 'r', label="one-step DQN")
+            plt.plot(x, y, lw=2, color=colors[i], alpha=1, label=input_path[i])
+            # plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)
 
-        x = []
-        y = []
-        scores = deque(maxlen=50)
-        low_CI = []
-        upper_CI = []
-        for i in range(0, len(scores2)):
-            scores.append(scores2[i])
-            if len(scores) == 50:
-                y.append(int(mean(scores)))
-
-        for i in range(0, len(y)):
-            x.append(i)
-
-        plt.plot(x, y, lw=2, color='#539caf', alpha=1, label="2-step DQN")
-        #plt.fill_between(x, low_CI, upper_CI, color='#539caf', alpha=0.4)
-        #plt.plot(x, y, label="three-step DQN")
-
-        x = []
-        y = []
-        scores = deque(maxlen=50)
-        low_CI = []
-        upper_CI = []
-        for i in range(0, len(scores3)):
-            scores.append(scores3[i])
-            if len(scores) == 50:
-                y.append(int(mean(scores)))
-
-        for i in range(0, len(y)):
-            x.append(i)
-
-        plt.plot(x, y, lw=2, color='#eaef8f', alpha=1, label="3-step DQN")
-        #plt.fill_between(x, low_CI, upper_CI, color='#eaef8f', alpha=0.4)
-        #plt.plot(x, y, 'g', label="three one-step DQN")
-
-        x = []
-        y = []
-        scores = deque(maxlen=50)
-        low_CI = []
-        upper_CI = []
-        for i in range(0, len(scores4)):
-            scores.append(scores4[i])
-            if len(scores) == 50:
-                y.append(int(mean(scores)))
-
-        for i in range(0, len(y)):
-            x.append(i)
-
-        plt.plot(x, y, lw=2, color='#db15d4', alpha=1, label="5-step DQN")
-        #plt.fill_between(x, low_CI, upper_CI, color='#db15d4', alpha=0.4)
+            # plt.plot(x, y, 'r', label="one-step DQN")
 
         plt.title("CartPole")
         plt.xlabel(x_label)

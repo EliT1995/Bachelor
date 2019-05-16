@@ -169,6 +169,10 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
+                while len(previous_experiences) > 0:
+                    agent.remember(previous_experiences)
+                    previous_experiences = previous_experiences[1:]
+
                 score_logger.add_score(step, episode)
                 break
 

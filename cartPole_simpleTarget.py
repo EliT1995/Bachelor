@@ -100,6 +100,13 @@ class DQNAgent:
         return n_step_next_state, n_step_done
 
 
+def save_experiences(state, action, reward, next_state, done):
+    previous_experiences.append((state, action, reward, next_state, done))
+
+    if len(previous_experiences) >= multiStep or done:
+        agent.remember(previous_experiences)
+
+
 if __name__ == "__main__":
     env_name = 'CartPole-v0'
     env = gym.make(env_name)
