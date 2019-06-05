@@ -6,13 +6,15 @@ from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
 from keras.optimizers import Adam
-from ScoreLogger import ScoreLogger
+from keras import initializers
+from StatistikLogger import StatistikLogger
+
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
         self.state_size = state_size
         self.action_size = action_size
-        self.memory = deque(maxlen=2000)
+        self.memory = deque(maxlen=20000)
         self.gamma = 0.95    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
@@ -26,8 +28,10 @@ class DQNAgent:
         frames_input = Input(shape=(self.state_size,), name='frames')
         actions_input = Input((self.action_size,), name='mask')
 
+        initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
+
         # Architecture of the Model
-        first_hidden_layer = Dense(24, activation='relu')(frames_input)
+        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -51,8 +55,8 @@ class DQNAgent:
     def get_sample_random_batch_from_replay_memory(self):
         mini_batch = random.sample(self.memory, batch_size)
 
-        current_state_batch = np.zeros((batch_size, 8))
-        next_state_batch = np.zeros((batch_size, 8))
+        current_state_batch = np.zeros((batch_size, self.state_size))
+        next_state_batch = np.zeros((batch_size, self.state_size))
 
         actions, rewards, dead = [], [], []
 
@@ -75,7 +79,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1
+                targets[i] = reward[i]
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
@@ -90,13 +94,13 @@ class DQNAgent:
             self.epsilon = max(self.epsilon, self.epsilon_min)
 
     def set_weights(self):
-        self.target_model.set_weights(self.target_model.get_weights())
+        self.target_model.set_weights(self.model.get_weights())
 
 if __name__ == "__main__":
     env_name = 'LunarLander-v2'
     env = gym.make(env_name)
     threshold = 200
-    score_logger = ScoreLogger(env_name, threshold)
+    score_logger = StatistikLogger(env_name, threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -106,27 +110,25 @@ if __name__ == "__main__":
     done = False
     batch_size = 32
 
-    run = 0
-    while True:
-        run += 1
+    for run in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
 
         while True:
-            step += 1
             # env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
+            step += reward
 
             agent.remember(state, action, reward, next_state, done)
             state = next_state
 
             if done:
-                #print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
+                # print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
                 score_logger.add_score(step, run)
                 break
 
@@ -135,3 +137,4 @@ if __name__ == "__main__":
 
             if step % 8 == 0:
                 agent.set_weights()
+

@@ -9,7 +9,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 200
+multi_step = 10
 
 
 class DQNAgent:
@@ -151,14 +151,17 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        eli = 0
 
         while True:
-            step += 1
+            eli += 1
             # env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
+
+            step += reward
 
             previous_experiences.append((state, action, reward, next_state, done))
 
@@ -173,7 +176,7 @@ if __name__ == "__main__":
                     agent.remember(previous_experiences)
                     previous_experiences = previous_experiences[1:]
 
-                score_logger.add_score(step, episode)
+                score_logger.add_score(step, episode, eli)
                 break
 
             if len(agent.memory) > batch_size:

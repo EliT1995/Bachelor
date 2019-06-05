@@ -128,7 +128,7 @@ if __name__ == "__main__":
         while True:
             step += 1
             #env.render()
-            agent = agents[-1]
+            #agent = agents[-1]
             action = agents[-1].act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -139,7 +139,7 @@ if __name__ == "__main__":
             state = next_state
 
             if done:
-                print("Run: {}, exploration: {}, score: {}".format(episode, agents[-1].epsilon, step))
+                #print("Run: {}, exploration: {}, score: {}".format(episode, agents[-1].epsilon, step))
                 score_logger.add_score(step, episode)
                 break
 
@@ -150,4 +150,5 @@ if __name__ == "__main__":
             if step % 8 == 0:
                 for t in range(0, multi_step):
                     agents[t].set_weights()
+
 
