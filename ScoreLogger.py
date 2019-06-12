@@ -31,15 +31,15 @@ class ScoreLogger:
 
         self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0"))
         #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v02"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v03"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v05"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v010"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v020"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v23"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v25"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v210"))
+        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v220"))
         #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v050"))
         #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0100"))
         #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0200"))
         #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0500"))
-        self.solved_png_path = "./solved_{}.png".format("CartPole-1351020")
+        self.solved_png_path = "./solved_{}.png".format("LunarLander-v2-1351020")
 
     def add_score(self):
         self._save_png(input_path=self.solved_csv_paths, output_path = self.solved_png_path,
@@ -67,10 +67,10 @@ class ScoreLogger:
 
             y = y[1:]
 
-            eli = 0
+            index = 0
             for j in range(0, len(y)):
-                eli += 100
-                x.append(eli)
+                index += 100
+                x.append(index)
 
             plt.plot(x, y, lw=2, color=colors[i], alpha=1, label=input_path[i])
             # plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)

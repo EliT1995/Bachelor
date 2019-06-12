@@ -135,6 +135,6 @@ if __name__ == "__main__":
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
-            if step % 8 == 0:
+            if step % 50 == 0:
                 agent.set_weights()
 

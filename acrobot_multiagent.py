@@ -1,6 +1,7 @@
 import random
 import gym
 import numpy as np
+import sys
 from collections import deque
 from keras.models import *
 from keras.layers import Dense
@@ -9,7 +10,7 @@ from keras.optimizers import Adam
 from keras import initializers
 from StatistikLogger import StatistikLogger
 
-multi_step = 3
+multi_step = int(sys.argv[1])
 
 class DQNAgent:
     def __init__(self, state_size, action_size):
@@ -80,7 +81,7 @@ class DQNAgent:
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1
+                targets[i] = reward[i]
 
             else:
                 targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
@@ -98,11 +99,11 @@ class DQNAgent:
         self.target_model.set_weights(self.model.get_weights())
 
 if __name__ == "__main__":
-    env_name = 'CartPole-v0'
+    env_name = 'Acrobot-v1'
     env = gym.make(env_name)
     threshold = 195
 
-    score_logger = StatistikLogger('CartPole-v0_multi', threshold)
+    score_logger = StatistikLogger('Acrobot-v1_{}multi'.format(multi_step), threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
@@ -126,20 +127,20 @@ if __name__ == "__main__":
         step = 0
 
         while True:
-            step += 1
             #env.render()
-            #agent = agents[-1]
+            agent = agents[-1]
             action = agents[-1].act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
+            step += reward
 
             for t in range(0, multi_step):
                 agents[t].remember(state, action, reward, next_state, done)
             state = next_state
 
             if done:
-                #print("Run: {}, exploration: {}, score: {}".format(episode, agents[-1].epsilon, step))
+                print("Run: {}, exploration: {}, score: {}".format(episode, agents[-1].epsilon, step))
                 score_logger.add_score(step, episode)
                 break
 
@@ -147,8 +148,7 @@ if __name__ == "__main__":
                 for t in range(0,multi_step):
                     agents[t].replay(batch_size)
 
-            if step % 8 == 0:
+            if step % 50 == 0:
                 for t in range(0, multi_step):
                     agents[t].set_weights()
-
 

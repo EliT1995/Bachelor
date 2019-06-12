@@ -1,13 +1,16 @@
 import random
 import gym
 import numpy as np
+import sys
 from collections import deque
 from keras.models import *
 from keras.layers import Dense
 from keras.layers import Multiply
-from keras.optimizers import Adam
 from keras import initializers
+from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
+
+multi_step = int(sys.argv[1])
 
 
 class DQNAgent:
@@ -31,7 +34,8 @@ class DQNAgent:
         initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
 
         # Architecture of the Model
-        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
+        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(
+            frames_input)
         second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
@@ -42,7 +46,11 @@ class DQNAgent:
 
         return model
 
-    def remember(self, state, action, reward, next_state, done):
+    def remember(self, experiences):
+        state = experiences[0][0]
+        action = experiences[0][1]
+        reward = self.discount(experiences)
+        next_state, done = self.get_next_state(experiences)
         self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
@@ -58,31 +66,31 @@ class DQNAgent:
         current_state_batch = np.zeros((batch_size, self.state_size))
         next_state_batch = np.zeros((batch_size, self.state_size))
 
-        actions, rewards, dead = [], [], []
+        actions, rewards, done = [], [], []
 
         for idx, val in enumerate(mini_batch):
             current_state_batch[idx] = val[0]
             actions.append(val[1])
             rewards.append(val[2])
             next_state_batch[idx] = val[3]
-            dead.append(val[4])
+            done.append(val[4])
 
-        return current_state_batch, actions, rewards, next_state_batch, dead
+        return current_state_batch, actions, rewards, next_state_batch, done
 
     def replay(self, batch_size):
         state, action, reward, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
-        next_Q_values = self.target_model.predict([next_state, action_mask])
-
         targets = np.zeros((batch_size,))
+
+        next_Q_values = self.target_model.predict([next_state, action_mask])
 
         for i in range(batch_size):
             if done[i]:
-                targets[i] = -1
+                targets[i] = reward[i]
 
             else:
-                targets[i] = reward[i] + self.gamma * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**multi_step * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -96,45 +104,83 @@ class DQNAgent:
     def set_weights(self):
         self.target_model.set_weights(self.model.get_weights())
 
+    def discount(self, experiences):
+        # Compute the gamma-discounted rewards over an episode
+        discounted_rewards = 0
+        t = 0
+
+        for state, action, reward, next_state, done in experiences:
+            discounted_rewards += reward * self.gamma ** t
+            t += 1
+            if done:
+                break
+
+        return discounted_rewards
+
+    def get_next_state(self, experiences):
+
+        n_step_next_state = []
+        n_step_done = False
+        for state, action, reward, next_state, done in experiences:
+            n_step_next_state = next_state
+            n_step_done = done
+
+            if done:
+                break
+
+        return n_step_next_state, n_step_done
+
+
 if __name__ == "__main__":
-    env_name = 'CartPole-v0'
+    env_name = 'Acrobot-v1'
     env = gym.make(env_name)
     threshold = 195
-    score_logger = StatistikLogger(env_name, threshold)
+
+    score_logger = StatistikLogger(env_name + str(multi_step), threshold)
 
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
 
     agent = DQNAgent(state_size, action_size)
+    previous_experiences = []
 
     done = False
     batch_size = 32
 
-    for run in range(1000):
+    for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
 
         while True:
-            step += 1
             # env.render()
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
             next_state = np.reshape(next_state, [1, state_size])
 
-            agent.remember(state, action, reward, next_state, done)
+            step += reward
+
+            previous_experiences.append((state, action, reward, next_state, done))
+
+            if len(previous_experiences) >= multi_step:
+                agent.remember(previous_experiences)
+                previous_experiences = previous_experiences[1:]
+
             state = next_state
 
             if done:
-                # print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
+                while len(previous_experiences) > 0:
+                    agent.remember(previous_experiences)
+                    previous_experiences = previous_experiences[1:]
+
+                score_logger.add_score(step, episode)
                 break
 
             if len(agent.memory) > batch_size:
                 agent.replay(batch_size)
 
-            if step % 8 == 0:
+            if step % 50 == 0:
                 agent.set_weights()
 
