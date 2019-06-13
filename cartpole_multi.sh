@@ -1,0 +1,21 @@
+#!/bin/sh
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5
+python cartPole_multiagent.py 3
+python cartPole_multiagent.py 5

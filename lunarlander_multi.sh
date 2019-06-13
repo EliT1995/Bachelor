@@ -1,0 +1,21 @@
+#!/bin/sh
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 3
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5
+python lunarLander_multiagent.py 5

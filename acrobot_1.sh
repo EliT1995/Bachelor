@@ -1,0 +1,21 @@
+#!/bin/sh
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5
+python acrobot_multistep.py 3
+python acrobot_multistep.py 5

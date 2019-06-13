@@ -125,9 +125,11 @@ if __name__ == "__main__":
         state = np.reshape(state, [1, state_size])
 
         step = 0
+        timeStep = 0
 
         while True:
             #env.render()
+            timeStep += 1
             agent = agents[-1]
             action = agents[-1].act(state)
 
@@ -148,7 +150,7 @@ if __name__ == "__main__":
                 for t in range(0,multi_step):
                     agents[t].replay(batch_size)
 
-            if step % 50 == 0:
+            if timeStep % 200 == 0:
                 for t in range(0, multi_step):
                     agents[t].set_weights()
 

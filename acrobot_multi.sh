@@ -1,0 +1,21 @@
+#!/bin/sh
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
+python acrobot_multiagent.py 3
+python acrobot_multiagent.py 5
