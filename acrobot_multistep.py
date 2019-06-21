@@ -146,13 +146,13 @@ if __name__ == "__main__":
 
     done = False
     batch_size = 32
+    timeStep = 0
 
     for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
-        timeStep = 0
 
         while True:
             # env.render()

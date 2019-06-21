@@ -10,7 +10,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = int(sys.argv[1])
+multi_step = 10#int(sys.argv[1])
 
 
 class DQNAgent:
@@ -146,13 +146,13 @@ if __name__ == "__main__":
 
     done = False
     batch_size = 32
+    timeStep = 0
 
     for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
-        timeStep = 0
 
         while True:
             # env.render()
