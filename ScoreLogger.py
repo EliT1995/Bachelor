@@ -29,17 +29,19 @@ class ScoreLogger:
 
         self.solved_csv_paths = []
 
-        self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0"))
-        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v02"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v23"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v25"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v210"))
-        self.solved_csv_paths.append("./solved_{}.csv".format("LunarLander-v220"))
-        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v050"))
-        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0100"))
-        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0200"))
-        #self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0500"))
-        self.solved_png_path = "./solved_{}.png".format("LunarLander-v2-1351020")
+        self.env = "LunarLander-v2"
+
+        self.solved_csv_paths.append("./solved_{}.csv".format(self.env))
+        # self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v02"))
+        self.solved_csv_paths.append("./solved_{}.csv".format(self.env + "3"))
+        self.solved_csv_paths.append("./solved_{}.csv".format(self.env + "5"))
+        self.solved_csv_paths.append("./solved_{}.csv".format(self.env + "10"))
+        self.solved_csv_paths.append("./solved_{}.csv".format(self.env + "20"))
+        # self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v050"))
+        # self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0100"))
+        # self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0200"))
+        # self.solved_csv_paths.append("./solved_{}.csv".format("CartPole-v0500"))
+        self.solved_png_path = "./solved_{}.png".format(self.env + "-1351020")
 
     def add_score(self):
         self._save_png(input_path=self.solved_csv_paths, output_path = self.solved_png_path,
@@ -77,7 +79,7 @@ class ScoreLogger:
 
             # plt.plot(x, y, 'r', label="one-step DQN")
 
-        plt.title("CartPole")
+        plt.title(self.env)
         plt.xlabel(x_label)
         plt.ylabel(y_label)
 
