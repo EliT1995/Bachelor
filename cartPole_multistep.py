@@ -1,5 +1,4 @@
 import random
-from statistics import mean
 import gym
 import numpy as np
 import sys
@@ -11,7 +10,7 @@ from keras import initializers
 from keras.optimizers import Adam
 from StatistikLogger import StatistikLogger
 
-multi_step = 10#int(sys.argv[1])
+multi_step = int(sys.argv[1])
 
 
 class DQNAgent:
@@ -19,7 +18,7 @@ class DQNAgent:
         self.state_size = state_size
         self.action_size = action_size
         self.memory = deque(maxlen=20000)
-        self.gamma = 0.95    # discount rate
+        self.gamma = 0.99    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
@@ -50,9 +49,9 @@ class DQNAgent:
     def remember(self, experiences):
         state = experiences[0][0]
         action = experiences[0][1]
-        reward, timeStep = self.discount(experiences)
+        reward = self.discount(experiences)
         next_state, done = self.get_next_state(experiences)
-        self.memory.append((state, action, reward, timeStep, next_state, done))
+        self.memory.append((state, action, reward, next_state, done))
 
     def act(self, state):
         if np.random.rand() <= self.epsilon:
@@ -67,20 +66,19 @@ class DQNAgent:
         current_state_batch = np.zeros((batch_size, self.state_size))
         next_state_batch = np.zeros((batch_size, self.state_size))
 
-        actions, rewards, timeStep, done = [], [], [], []
+        actions, rewards, done = [], [], []
 
         for idx, val in enumerate(mini_batch):
             current_state_batch[idx] = val[0]
             actions.append(val[1])
             rewards.append(val[2])
-            timeStep.append(val[3])
-            next_state_batch[idx] = val[4]
-            done.append(val[5])
+            next_state_batch[idx] = val[3]
+            done.append(val[4])
 
-        return current_state_batch, actions, rewards, timeStep, next_state_batch, done
+        return current_state_batch, actions, rewards, next_state_batch, done
 
     def replay(self, batch_size):
-        state, action, reward, timeStep, next_state, done = self.get_sample_random_batch_from_replay_memory()
+        state, action, reward, next_state, done = self.get_sample_random_batch_from_replay_memory()
 
         action_mask = np.ones((batch_size, self.action_size))
         targets = np.zeros((batch_size,))
@@ -92,7 +90,7 @@ class DQNAgent:
                 targets[i] = reward[i]
 
             else:
-                targets[i] = reward[i] + self.gamma**timeStep[i] * np.amax(next_Q_values[i])
+                targets[i] = reward[i] + self.gamma**multi_step * np.amax(next_Q_values[i])
 
         one_hot_actions = np.eye(self.action_size)[np.array(action).reshape(-1)]
         one_hot_targets = one_hot_actions * targets[:, None]
@@ -117,7 +115,7 @@ class DQNAgent:
             if done:
                 break
 
-        return discounted_rewards, t
+        return discounted_rewards
 
     def get_next_state(self, experiences):
 
@@ -134,7 +132,7 @@ class DQNAgent:
 
 
 if __name__ == "__main__":
-    env_name = 'MountainCar-v0'
+    env_name = 'CartPole-v0'
     env = gym.make(env_name)
     threshold = 195
 
@@ -150,15 +148,15 @@ if __name__ == "__main__":
     batch_size = 32
     timeStep = 0
 
-    for episode in range(500):
+    for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
         step = 0
-        scores_avg = []
 
-        for timeStep in range(5000):
+        while True:
             # env.render()
+            timeStep += 1
             action = agent.act(state)
 
             next_state, reward, done, _ = env.step(action)
@@ -179,17 +177,12 @@ if __name__ == "__main__":
                     agent.remember(previous_experiences)
                     previous_experiences = previous_experiences[1:]
 
-                state = env.reset()
-                state = np.reshape(state, [1, state_size])
-                scores_avg.append(step)
-                step = 0
+                score_logger.add_score(step, episode)
+                break
 
-            if len(agent.memory) > batch_size:
+            if len(agent.memory) > 100:
                 agent.replay(batch_size)
 
-            if timeStep % 200 == 0:
+            if timeStep % 50 == 0:
                 agent.set_weights()
-
-        score_logger.add_score(int(mean(scores_avg)), episode)
-
 

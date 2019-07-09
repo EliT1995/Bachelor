@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2f0006d3-b321-495f-b1c3-661d62261415" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cartPole_multistep.py" beforeDir="false" afterPath="$PROJECT_DIR$/cartPole_multistep.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +15,7 @@
     <session id="968622109">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="35" />
+          <entry key="project.closed" value="36" />
           <entry key="project.open.time.0" value="16" />
           <entry key="project.open.time.2" value="10" />
           <entry key="project.open.time.3" value="5" />
@@ -27,7 +28,7 @@
           <entry key="csv" value="65" />
           <entry key="h5" value="2" />
           <entry key="png" value="168" />
-          <entry key="py" value="100" />
+          <entry key="py" value="101" />
           <entry key="script" value="1" />
           <entry key="sh" value="48" />
         </counts>
@@ -36,14 +37,14 @@
         <counts>
           <entry key="Image" value="168" />
           <entry key="PLAIN_TEXT" value="116" />
-          <entry key="Python" value="100" />
+          <entry key="Python" value="101" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="csv" value="9" />
           <entry key="dummy" value="28" />
-          <entry key="py" value="12603" />
+          <entry key="py" value="12642" />
           <entry key="script" value="19" />
           <entry key="sh" value="458" />
         </counts>
@@ -51,7 +52,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="514" />
-          <entry key="Python" value="12603" />
+          <entry key="Python" value="12642" />
         </counts>
       </usages-collector>
     </session>
@@ -76,8 +77,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cartPole_multistep.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="94" selection-start-line="94" selection-end-line="94" />
+            <state relative-caret-position="401">
+              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -142,6 +143,7 @@
       <find>disc</find>
       <find>discounted_rewards</find>
       <find>sub</find>
+      <find />
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -241,7 +243,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.cartPole_multistep">
+  <component name="RunManager" selected="Python.acrobot">
     <configuration name="ScoreLogger" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Bachelor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -356,10 +358,10 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.acrobot" />
         <item itemvalue="Python.cartPole_multistep" />
         <item itemvalue="Python.lunarLander_multistep" />
         <item itemvalue="Python.cartPole" />
-        <item itemvalue="Python.acrobot" />
         <item itemvalue="Python.ScoreLogger" />
       </list>
     </recent_temporary>
@@ -379,14 +381,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="812" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989518" visible="true" weight="0.20930232" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" sideWeight="0.5010482" side_tool="true" weight="0.22934362" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3272472" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.2700831" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" visible="true" weight="0.39722222" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4989429" weight="0.35555556" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4989429" weight="0.37361112" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -411,9 +414,15 @@
           <option name="timeStamp" value="268" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <condition expression="timeStep[i] is not 10" language="Python" />
           <url>file://$PROJECT_DIR$/cartPole_multistep.py</url>
           <line>94</line>
-          <option name="timeStamp" value="270" />
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/acrobot.py</url>
+          <line>133</line>
+          <option name="timeStamp" value="272" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -432,6 +441,11 @@
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>timeStep[i] is not 10</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
       <expression>
         <expression-string>is_seen is True</expression-string>
         <language-id>Python</language-id>
@@ -474,11 +488,6 @@
       </expression>
       <expression>
         <expression-string>timeStep == 30</expression-string>
-        <language-id>Python</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>timeStep[i] == len(self.memory) - 1</expression-string>
         <language-id>Python</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
@@ -631,13 +640,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/acrobot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="111" column="16" selection-start-line="111" selection-start-column="16" selection-end-line="111" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/acrobot_multiagent.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -683,10 +685,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/acrobot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/cartPole_multistep.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
+        <state relative-caret-position="401">
+          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

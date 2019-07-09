@@ -15,7 +15,7 @@ class DQNAgent:
         self.state_size = state_size
         self.action_size = action_size
         self.memory = deque(maxlen=20000)
-        self.gamma = 0.95    # discount rate
+        self.gamma = 0.99    # discount rate
         self.epsilon = 1.0  # exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
@@ -111,7 +111,7 @@ if __name__ == "__main__":
     batch_size = 32
     timeStep = 0
 
-    for run in range(1000):
+    for episode in range(1000):
         state = env.reset()
         state = np.reshape(state, [1, state_size])
 
@@ -131,12 +131,12 @@ if __name__ == "__main__":
 
             if done:
                 # print("Run: {}, exploration: {}, score: {}".format(run, agent.epsilon, step))
-                score_logger.add_score(step, run)
+                score_logger.add_score(step, episode)
                 break
 
-            if len(agent.memory) > batch_size:
+            if len(agent.memory) > 100:
                 agent.replay(batch_size)
 
-            if timeStep % 200 == 0:
+            if timeStep % 50 == 0:
                 agent.set_weights()
 
