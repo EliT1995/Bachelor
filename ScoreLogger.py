@@ -5,7 +5,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from collections import deque
 import csv
-
+from scipy.stats import sem, t
+from scipy import mean
 
 def get_average_scores(input_path):
     scores_average = []
@@ -54,6 +55,7 @@ class ScoreLogger:
 
     def _save_png(self, input_path, output_path, x_label, y_label, average_of_n_last, show_goal, show_trend, show_legend):
 
+        names = ["one-step","three-step","five-step","ten-step","twenty-step"]
         colors = ["#ed9b90", "#4286f4", "#f2593e", "#f1bb3e", "#d5ed38", "#5e2a47", "#27dd82", "#666317", "#5a42e5", "#f442a4"]
         for i in range(len(input_path)):
             scores, scores_stdev = get_average_scores(input_path[i])
@@ -62,19 +64,34 @@ class ScoreLogger:
             scores_mean = deque(maxlen=100)
             low_CI = []
             upper_CI = []
+
+            confidence = 0.95
+
             for j in range(0, len(scores)):
                 scores_mean.append(scores[j])
                 if j % 100 == 0:
                     y.append(int(mean(scores_mean)))
+                    n = len(scores_mean)
+                    m = mean(scores_mean)
+                    std_err = sem(scores_mean)
+                    h = std_err * t.ppf((1 + confidence) / 2, n - 1)
+
+                    start = m - h
+                    low_CI.append(start)
+                    end = m + h
+                    upper_CI.append(end)
 
             y = y[1:]
+            low_CI = low_CI[1:]
+            upper_CI = upper_CI[1:]
 
             index = 0
             for j in range(0, len(y)):
                 index += 100
                 x.append(index)
 
-            plt.plot(x, y, lw=2, color=colors[i], alpha=1, label=input_path[i])
+            plt.plot(x, y, lw=2, color=colors[i], alpha=1, label=names[i])
+            plt.plot((x, x), (low_CI, upper_CI), colors[i])
             # plt.fill_between(x, low_CI, upper_CI, color='#ed9b90', alpha=0.4)
 
             # plt.plot(x, y, 'r', label="one-step DQN")
