@@ -31,8 +31,8 @@ class DQNAgent:
         initializer = initializers.RandomNormal(mean=0.0, stddev=0.005, seed=None)
 
         # Architecture of the Model
-        first_hidden_layer = Dense(24, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
-        second_hidden_layer = Dense(24, activation='relu')(first_hidden_layer)
+        first_hidden_layer = Dense(256, kernel_initializer=initializer, bias_initializer='zeros', activation='relu')(frames_input)
+        second_hidden_layer = Dense(128, activation='relu')(first_hidden_layer)
         output_layer = Dense(self.action_size)(second_hidden_layer)
 
         filtered_output = Multiply(name='QValue')([output_layer, actions_input])
